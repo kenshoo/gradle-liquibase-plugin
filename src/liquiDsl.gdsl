@@ -1,0 +1,8 @@
+
+def ctx = context()
+
+contributor(ctx) {
+     ['Senior', 'Expert', 'Junior'].each {
+        method name: "findAll${it}Employees", type: 'java.util.Collection'
+    }
+}
