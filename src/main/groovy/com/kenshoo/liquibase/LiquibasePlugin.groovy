@@ -13,9 +13,6 @@ class LiquibasePlugin implements Plugin<Project> {
 
     public class LiquibasePluginConvention {
         def configurationScript = 'liquid.conf'
-        def reportingChannel = { logger, info ->
-            logger.info(info)
-        }
     }
 
     void apply(Project project) {
@@ -27,7 +24,6 @@ class LiquibasePlugin implements Plugin<Project> {
                 def invoker = new LiquiMethodInvoker()
                 def liqui = project.convention.plugins.liqui
                 invoker.invoke(project, taskMeta, new LiquidStrap().build(liqui.configurationScript))
-
             }
         }
     }
