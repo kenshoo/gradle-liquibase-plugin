@@ -49,6 +49,14 @@ class BasicActionsTest {
         project.tag.execute()
     }
 
+
+    @Test
+    public void rollback() {
+        project.contexts = ""
+        project.changesToRollback = 1
+        project.rollback.execute()
+    }
+
     @Test
     public void update() {
         project.contexts = ""
@@ -57,12 +65,6 @@ class BasicActionsTest {
         sql.execute('select * from play')// will fail if play does not exists
     }
 
-    @Test
-    public void rollback() {
-        project.contexts = ""
-        project.changesToRollback = 1
-        project.rollback.execute()
-    }
 
     @Test
     public void validate() {
