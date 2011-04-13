@@ -5,7 +5,7 @@ import groovy.sql.Sql
 import org.junit.Before
 import org.junit.Test
 
- /**
+/**
  * Created by IntelliJ IDEA.
  * User: ronen
  * Date: 4/5/11
@@ -45,8 +45,8 @@ class BasicActionsTest {
 
     @Test
     public void tag() {
-      project.tagString = tag
-      project.tag.execute()
+        project.tagString = tag
+        project.tag.execute()
     }
 
     @Test
@@ -55,6 +55,18 @@ class BasicActionsTest {
         project.update.execute()
         def sql = new Sql(ds)
         sql.execute('select * from play')// will fail if play does not exists
+    }
+
+    @Test
+    public void rollback() {
+        project.contexts = ""
+        project.changesToRollback = 1
+        project.rollback.execute()
+    }
+
+    @Test
+    public void validate() {
+        project.validate.execute()
     }
 }
 

@@ -35,6 +35,8 @@ class LiquiMethodInvokerTest {
         def oneMatched = new LiquiMethodInvoker().matchMaxParams(project, tasks['update'])
         assertThat oneMatched.size(), equalTo(1)
         assertThat oneMatched[0].name, equalTo('contexts')
+
+        def zeroMatched = new LiquiMethodInvoker().matchMaxParams(project, tasks['validate'])
     }
 
     @Test

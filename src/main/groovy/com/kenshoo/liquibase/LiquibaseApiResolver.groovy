@@ -17,6 +17,8 @@ class LiquibaseApiResolver {
 
         def paramLists = []
 
+        def methodDesc
+
         def notProvidedFilter = {list -> list.findAll {it.name != 'out'}}
 
         TaskMeta(name) {
@@ -25,7 +27,7 @@ class LiquibaseApiResolver {
 
         def desc() {
             def engine = new SimpleTemplateEngine()
-            def binding = [name: name, paramLists: paramsWithoutNonProvided()]
+            def binding = [name: name, paramLists: paramsWithoutNonProvided(), methodDesc: methodDesc]
             def text = this.class.classLoader.getResourceAsStream('description.gsp').text
             def template = engine.createTemplate(text).make(binding)
             template.toString()
@@ -54,6 +56,9 @@ class LiquibaseApiResolver {
             implementations.collect {it.parameters}.findAll {it}.each { paramList ->
                 nameToTask[name].paramLists << paramList
             }
+        }
+        methods.groupBy {it.name}.each {name, implementations ->
+            nameToTask[name].methodDesc = implementations.first().comment
         }
         nameToTask
     }
