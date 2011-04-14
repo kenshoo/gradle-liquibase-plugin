@@ -12,7 +12,11 @@ import org.slf4j.LoggerFactory
  */
 class LiquiMethodInvoker {
 
-    def Logger logger = LoggerFactory.getLogger(this.class);
+    def Logger logger = LoggerFactory.getLogger(this.class)
+
+    def LiquiMethodInvoker() {
+        new Results().applyResultOutput()
+    }
 
     def matchMaxParams(project, taskMeta) {
         def sortedReverse = taskMeta.paramsWithoutNonProvided().sort {-1 * it.size()}
@@ -38,8 +42,8 @@ class LiquiMethodInvoker {
         if (taskMeta.name.equals('reportStatus')) {
             convertedValues.add(new StringWriter())// the only non user provided param at the moment
         }
-        liquid.metaClass.invokeMethod(liquid, taskMeta.name, convertedValues as Object[])
-        reportBack(convertedValues)
+        def result = liquid.metaClass.invokeMethod(liquid, taskMeta.name, convertedValues as Object[])
+        reportBack(convertedValues, result)
     }
 
 
@@ -47,10 +51,19 @@ class LiquiMethodInvoker {
         return !match && sortedReverse
     }
 
-    private reportBack(values) {
-        def result = values.find {it.class.equals(StringWriter.class)}
+    private reportBack(values, result) {
+        def output = values.find {it.class.equals(StringWriter.class)}
+        if (output) {
+            logger.info(Logging.LIFECYCLE, output.toString())
+        }
         if (result) {
-            logger.info(Logging.LIFECYCLE, result.toString() )
+            result.each {
+                if (it.respondsTo('summary')) {
+                    it.summary()
+                } else {
+                    logger.info(Logging.LIFECYCLE, it.toString())
+                }
+            }
         }
     }
 
