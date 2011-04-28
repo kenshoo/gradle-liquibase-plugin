@@ -6,7 +6,6 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * Created by IntelliJ IDEA.
  * User: ronen
  * Date: 4/5/11
  * Time: 6:18 PM
