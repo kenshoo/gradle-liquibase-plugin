@@ -3,13 +3,13 @@ package com.kenshoo.test
 import com.kenshoo.liquibase.LiquidStrap
 import groovy.sql.Sql
 import org.junit.Before
+import org.junit.After
 import org.junit.Test
 
 /**
  * User: ronen
  * Date: 4/5/11
  * Time: 6:18 PM
- * To change this template use File | Settings | File Templates.
  */
 class BasicActionsTest {
 
@@ -28,6 +28,7 @@ class BasicActionsTest {
         }
     }
 
+    @After
     public void cleanup() {
         def sql = new Sql(ds)
         ['drop database if exists ronen', 'create database ronen'].each {
