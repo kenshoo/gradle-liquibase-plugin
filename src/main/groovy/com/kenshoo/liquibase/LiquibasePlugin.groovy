@@ -25,6 +25,7 @@ class LiquibasePlugin implements Plugin<Project> {
                 def liqui = project.convention.plugins.liqui
                 invoker.invoke(project, taskMeta, new LiquidStrap().build(liqui.configurationScript))
             }
+            project."${taskMeta.name}".group = 'liquibase'
         }
     }
 
