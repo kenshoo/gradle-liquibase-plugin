@@ -49,7 +49,7 @@ class LiquiMethodInvoker {
             convertedValues.add(new StringWriter())// the only non user provided param at the moment
         }
         if (taskMeta.hasDryRun && project.dryRun) {
-            convertedValues.add(new OutputStreamWriter(System.out))
+            convertedValues.add(new StringWriter())
         }
 
     }
