@@ -19,6 +19,8 @@ class LiquibaseApiResolver {
 
         def methodDesc
 
+        def hasDryRun = {['update','rollback','changelogSync'].contains(name)} // sql is output to stdout
+
         def notProvidedFilter = {list -> list.findAll {it.name != 'out'}}
 
         TaskMeta(name) {

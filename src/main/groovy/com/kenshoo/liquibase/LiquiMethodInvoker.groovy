@@ -39,11 +39,19 @@ class LiquiMethodInvoker {
             def expectedType = params.find {it.name.equals(name)}.type.fullyQualifiedName
             value.asType(Class.forName(expectedType))
         }
+        addNonUserProvided(taskMeta, convertedValues, project)
+        def result = liquid.metaClass.invokeMethod(liquid, taskMeta.name, convertedValues as Object[])
+        reportBack(convertedValues, result)
+    }
+
+    private def addNonUserProvided(taskMeta, convertedValues, project) {
         if (taskMeta.name.equals('reportStatus')) {
             convertedValues.add(new StringWriter())// the only non user provided param at the moment
         }
-        def result = liquid.metaClass.invokeMethod(liquid, taskMeta.name, convertedValues as Object[])
-        reportBack(convertedValues, result)
+        if (taskMeta.hasDryRun && project.dryRun) {
+            convertedValues.add(new OutputStreamWriter(System.out))
+        }
+
     }
 
 
