@@ -34,9 +34,9 @@ class ApiResolvingTest {
         def tasks = resolver.convertMethodToTasks(methods)
         assertThat tasks.keySet(), hasItems('update', 'tag', 'rollback')
         assertThat tasks['update'].paramLists.size(), equalTo(2)
-        tasks.each{name,task ->
+        /*tasks.each{name,task ->
             actualStdout.println task.desc()
-        }
+        }*/
 //        assertThat methods.collect {it.name} , hasItems('update','tag','rollback')
     }
 }

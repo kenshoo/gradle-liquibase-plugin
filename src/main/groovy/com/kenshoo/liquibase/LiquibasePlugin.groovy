@@ -29,6 +29,11 @@ class LiquibasePlugin implements Plugin<Project> {
         }
     }
 
-
+    def configurationGenerator() {
+      	project.task([description: "generate liquid configuration file (liqui.conf)"], "genConf") << {
+                  new Generator().generateConfiguration() 
+            }
+            project."${taskMeta.name}".group = 'liquibase'
+    }
 
 }

@@ -30,7 +30,7 @@ class LiquibaseApiResolver {
         def desc() {
             def engine = new SimpleTemplateEngine()
             def binding = [name: name, paramLists: paramsWithoutNonProvided(), methodDesc: methodDesc]
-            def text = this.class.classLoader.getResourceAsStream('description.gsp').text
+            def text = new ClasspathMangler().readResourceText('description.gsp')
             def template = engine.createTemplate(text).make(binding)
             template.toString()
         }
