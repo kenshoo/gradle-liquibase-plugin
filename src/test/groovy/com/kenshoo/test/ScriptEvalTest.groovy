@@ -15,6 +15,7 @@ class ScriptEvalTest {
     @Test
     public void sanity() {
         def props = new GroovyShell().evaluate(new File('src/test/resources/liquid.conf'))
-        assertThat props.keySet(),hasItems('name','user','pass','host')
+        assertThat props[0].keySet(),hasItems('name','user','pass','host')
+        assertThat props[0].values(),hasItems('kenshoo_dba')
     }
 }

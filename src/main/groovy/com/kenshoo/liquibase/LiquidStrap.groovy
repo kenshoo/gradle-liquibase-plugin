@@ -18,8 +18,9 @@ import liquibase.resource.FileSystemResourceAccessor
 class LiquidStrap {
 
 
-    def Liquibase build(configurationScript) {
-        readProperties(configurationScript).with {
+    def Liquibase build(configuration) {
+        configuration.with {
+            new File('bla').write(host)
             ChangeLogParserFactory.getInstance().register(new GroovyLiquibaseChangeLogParser())
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(createDs(user,pass,host,name).getConnection()))
             new Liquibase(changeLog, new FileSystemResourceAccessor(), database)

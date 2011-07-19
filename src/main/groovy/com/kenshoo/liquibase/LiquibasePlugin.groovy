@@ -15,6 +15,7 @@ class LiquibasePlugin implements Plugin<Project> {
         def configurationScript = 'liquid.conf'
     }
 
+
     void apply(Project project) {
         project.convention.plugins.liqui = new LiquibasePluginConvention()
         def resolver = new LiquibaseApiResolver()
@@ -23,7 +24,11 @@ class LiquibasePlugin implements Plugin<Project> {
             project.task([description: taskMeta.desc()], taskMeta.name) << {
                 def invoker = new LiquiMethodInvoker()
                 def liqui = project.convention.plugins.liqui
-                invoker.invoke(project, taskMeta, new LiquidStrap().build(liqui.configurationScript))
+                def strap = new LiquidStrap()
+                def props =  strap.readProperties(liqui.configurationScript)
+                props.each {config -> 
+                  invoker.invoke(project, taskMeta, strap.build(config))
+		    }
             }
             project."${taskMeta.name}".group = 'liquibase'
         }

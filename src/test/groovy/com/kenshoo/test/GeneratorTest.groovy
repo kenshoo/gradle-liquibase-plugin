@@ -18,8 +18,8 @@ class GeneratorTest {
     def gen = new Generator()
     gen.generateConfiguration()
     actualStdout.println new File(gen.configurationName).text.class
-    def expected = "[user: '', pass: '', host: '1', name: '', changeLog: 'src/main/groovy/com/kenshoo/liquibase/349/main.groovy']"
-    assertThat new File(gen.configurationName).text, containsString(expected)
+    def expected = "[user: '', pass: '', host: '', name: '', changeLog: 'src/main/groovy/com/kenshoo/liquibase/349/main.groovy']"
+    assertThat new File(gen.configurationName).text.trim(), containsString(expected)
  }
 
 }
