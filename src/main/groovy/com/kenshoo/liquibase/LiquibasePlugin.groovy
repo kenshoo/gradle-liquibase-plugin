@@ -1,7 +1,11 @@
 package com.kenshoo.liquibase
 
 import org.gradle.api.Plugin
+import org.gradle.api.logging.Logging
 import org.gradle.api.Project
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 
  /**
  * Created by IntelliJ IDEA.
@@ -10,6 +14,8 @@ import org.gradle.api.Project
  * Time: 3:00 PM
  */
 class LiquibasePlugin implements Plugin<Project> {
+
+    def Logger logger = LoggerFactory.getLogger(this.class)
 
     public class LiquibasePluginConvention {
         def configurationScript = 'liquid.conf'
@@ -27,6 +33,8 @@ class LiquibasePlugin implements Plugin<Project> {
                 def strap = new LiquidStrap()
                 def props =  strap.readProperties(liqui.configurationScript)
                 props.each {config -> 
+                  
+                  logger.info(Logging.LIFECYCLE, "Executing ${taskMeta.name} on database ${config['name']} under hostname ${config['host']}:" )
                   invoker.invoke(project, taskMeta, strap.build(config))
 		    }
             }
