@@ -51,4 +51,5 @@ class LiquibasePlugin implements Plugin<Project> {
             project.genConf.group = 'liquibase'
     }
 
+
 }
