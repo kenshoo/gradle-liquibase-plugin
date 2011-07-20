@@ -34,6 +34,7 @@ class LiquibasePlugin implements Plugin<Project> {
                 def props =  strap.readProperties(liqui.configurationScript)
                 props.each {config -> 
                   
+                  new HostsAssertion().assertHostName(config.host)
                   logger.info(Logging.LIFECYCLE, "Executing ${taskMeta.name} on database ${config['name']} under hostname ${config['host']}:" )
                   invoker.invoke(project, taskMeta, strap.build(config))
 		    }
