@@ -9,9 +9,14 @@ import org.gradle.testfixtures.ProjectBuilder
  * Time: 4:21 PM
  */
 class ProjectStrap {
+    def buildDir = new File("${System.getProperty('user.dir')}/build/mocked-prj")
     def createProjectWithPlugin(pluginClass) {
-        def project = ProjectBuilder.builder().withProjectDir(new File(System.getProperty('user.dir'))).build()
+        buildDir.mkdir()
+        def project = ProjectBuilder.builder().withProjectDir(buildDir).build()
         project.apply(plugin: pluginClass)
         project
+    }
+
+    def createChangeSets() {
     }
 }
