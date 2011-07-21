@@ -71,8 +71,13 @@ class LiquibasePlugin implements Plugin<Project> {
        liquidPackage.with{
           	archiveName='liquid-distributable.zip'
             destinationDir=project.buildDir
-            from project.projectDir
-            include 'gradle/**','gradlew','gradlew.bat'
+            from(project.projectDir){
+              fileMode = 0775
+              include 'gradlew'
+		}
+            from(project.projectDir){
+              include 'gradle/**','gradlew.bat'
+		}
 	 }
     }
 }
