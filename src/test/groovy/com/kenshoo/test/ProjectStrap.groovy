@@ -10,7 +10,7 @@ import org.gradle.testfixtures.ProjectBuilder
  */
 class ProjectStrap {
     def createProjectWithPlugin(pluginClass) {
-        def project = ProjectBuilder.builder().build()
+        def project = ProjectBuilder.builder().withProjectDir(new File(System.getProperty('user.dir'))).build()
         project.apply(plugin: pluginClass)
         project
     }

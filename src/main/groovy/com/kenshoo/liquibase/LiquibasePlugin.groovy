@@ -29,7 +29,7 @@ class LiquibasePlugin implements Plugin<Project> {
         addPackagingTasks(project)
     }
 
-    def addLiquidTasks() {
+    def addLiquidTasks(project) {
         project.convention.plugins.liqui = new LiquibasePluginConvention()
         def resolver = new LiquibaseApiResolver()
         def methods = resolver.readAllApiMethods()
@@ -57,12 +57,14 @@ class LiquibasePlugin implements Plugin<Project> {
     }
 
     def addPackagingTasks(project){
-       project.apply('base')
-       project.task([type:Wrapper],'wrapper') << {
+       project.apply(plugin:'base')
+       project.task([type:Wrapper],'wrapper').configure {
         gradleVersion = '0.9.2'
-        urlRoot = 'http://bob:8081/artifactory/repo'
+        disterbutionUrl = 'http://bob:8081/artifactory/repo'
 	 }
+
+       project.wrapper.outputs.files 'gradlew.bat'
+       project.wrapper.outputs.dir 'gradle'
+       project.wrapper.outputs.dir 'userHome'
     }
-
-
 }
