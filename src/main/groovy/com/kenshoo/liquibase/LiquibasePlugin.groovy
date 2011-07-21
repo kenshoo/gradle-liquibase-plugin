@@ -5,6 +5,7 @@ import org.gradle.api.logging.Logging
 import org.gradle.api.Project
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.gradle.api.tasks.wrapper.Wrapper 
 
 
  /**
@@ -23,6 +24,12 @@ class LiquibasePlugin implements Plugin<Project> {
 
 
     void apply(Project project) {
+        addLiquidTasks(project)
+        addGeneratorTasks(project)
+        addPackagingTasks(project)
+    }
+
+    def addLiquidTasks() {
         project.convention.plugins.liqui = new LiquibasePluginConvention()
         def resolver = new LiquibaseApiResolver()
         def methods = resolver.readAllApiMethods()
@@ -33,16 +40,13 @@ class LiquibasePlugin implements Plugin<Project> {
                 def strap = new LiquidStrap()
                 def props =  strap.readProperties(liqui.configurationScript)
                 props.each {config -> 
-                  
                   new HostsAssertion().assertHostName(config.host)
                   logger.info(Logging.LIFECYCLE, "Executing ${taskMeta.name} on database ${config['name']} under hostname ${config['host']}:" )
                   invoker.invoke(project, taskMeta, strap.build(config))
 		    }
             }
             project."${taskMeta.name}".group = 'liquibase'
-        }
-
-        addGeneratorTasks(project)
+        }   	
     }
 
     def addGeneratorTasks(project) {
@@ -50,6 +54,14 @@ class LiquibasePlugin implements Plugin<Project> {
                   new Generator().generateConfiguration() 
             }
             project.genConf.group = 'liquibase'
+    }
+
+    def addPackagingTasks(project){
+       project.apply('base')
+       project.task([type:Wrapper],'wrapper') << {
+        gradleVersion = '0.9.2'
+        urlRoot = 'http://bob:8081/artifactory/repo'
+	 }
     }
 
 
