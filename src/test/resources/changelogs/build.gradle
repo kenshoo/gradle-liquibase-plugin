@@ -1,65 +1,8 @@
-import com.kenshoo.db.ContextTestManipulator
-
-apply plugin: com.kenshoo.exec.RemoteExecPlugin
-apply plugin: 'new-db'
 apply plugin: 'liquibase'
 
 buildscript {
   dependencies {
-    classpath 'com.kenshoo.gradle.plugins:remoting:1.0'
-    classpath 'com.kenshoo.gradle.plugins:new-db:1.1'
     classpath 'com.kenshoo.gradle.plugins:liquibase:1.2'
   }
 }
 
-configurations {
- schema
-}
-
-dependencies {
-   schema group:'com.kenshoo', name:'db-dump' , version: '1.3'
-}
-
-def manipulator = new ContextTestManipulator(project)
-def syncDbProps = hasProperty('dbName')? manipulator.cliOptions(project):manipulator.contextTest(project)
-
-task obtainSchema(type:Sync){
-   from configurations.schema
-   into "$buildDir/libs"
-   doLast {
-     copy {
-      def zip = configurations.schema.allDependencies.toArray()[0]
-      from zipTree("$buildDir/libs/${zip.name}-${zip.version}.zip")
-      into "$buildDir/libs"
-    }
-   }
-}
-
-task installSchema(type:Exec,dependsOn:'obtainSchema'){
-    (syncDbProps + [dbUser:'kenshoo_dba',dbPass:'V0ll3y']).with{
-        isLinux = (System.getProperty('os.name').contains('Linux')) 
-        updateExt = isLinux ? 'sh':'bat'
-        this.project.installSchema.commandLine "./update_schema.${updateExt}",dbUser,dbPass,dbName,dbHost,"${this.project.buildDir}/libs/clean_dump.sql"
-    }
-}
-
-
-task setupDb(dependsOn:['installSchema','setupBinary']) << {
-    upgradeSchemaCall(syncDbProps)
-}
-
-task upgradeSchema(dependsOn:['setupBinary']) << {
-   upgradeSchemaCall(syncDbProps)
-}
-
-private def upgradeSchemaCall(syncDbProps) {
-  syncDbProps.with {
-    config = [domain: 'kenshootlv.local', user: 'hudson', pass: 'h:ds0n1', host: 'watzman']
-    config.remoteCmd = [remoteCmd, dbHost, dbUser, dbPass, dbName, "\"${branch}\"", UUID.randomUUID()]
-    remoteCall(config)
-  }
-}
-
-task overrideContextTest << {
-		manipulator.overrideContextTest(project)
-}
