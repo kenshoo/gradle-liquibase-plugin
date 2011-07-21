@@ -19,6 +19,7 @@ class PackagingTest {
    public void setup(){
       straper = new ProjectStrap()
       project = straper.createProjectWithPlugin(com.kenshoo.liquibase.LiquibasePlugin)
+      straper.createChangeSets()
    }
    
   @Test
@@ -35,7 +36,7 @@ class PackagingTest {
     project.wrapper.execute() 
     project.liquidPackage.execute()
     def zipFile = new java.util.zip.ZipFile(new File("${straper.buildDir.path}/build/liquid-distributable.zip"))
-    assertThat zipFile.entries().collect {it.name},hasItems('gradle/','gradlew','gradlew.bat') 
+    assertThat zipFile.entries().collect {it.name},hasItems('gradle/','gradlew','gradlew.bat','src/','build.gradle') 
     project.cleanWrapper.execute()
   }	   
   

@@ -65,7 +65,7 @@ class LiquibasePlugin implements Plugin<Project> {
 
        project.apply(plugin:'base')
        project.wrapper.outputs.files 'gradlew.bat'
-       ['gradle','userHome'].each{project.wrapper.outputs.dir it}
+       ['gradle','userHome'].each{ project.wrapper.outputs.dir it }
 
        def liquidPackage = project.task([description :"packages liquibase for deployment",type: Zip],"liquidPackage")   
        liquidPackage.with{
@@ -76,7 +76,7 @@ class LiquibasePlugin implements Plugin<Project> {
               include 'gradlew'
 		}
             from(project.projectDir){
-              include 'gradle/**','gradlew.bat'
+              include 'gradle/**','gradlew.bat','src/**','build.gradle'
 		}
 	 }
     }
