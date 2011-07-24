@@ -5,8 +5,6 @@ import org.gradle.api.logging.Logging
 import org.gradle.api.Project
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.gradle.api.tasks.wrapper.Wrapper 
-import org.gradle.api.tasks.bundling.Zip
 
 
  /**
@@ -27,7 +25,7 @@ class LiquibasePlugin implements Plugin<Project> {
     void apply(Project project) {
         addLiquidTasks(project)
         addGeneratorTasks(project)
-        addPackagingTasks(project)
+        new Packging().addPackagingTasks(project)
     }
 
     def addLiquidTasks(project) {
@@ -57,27 +55,4 @@ class LiquibasePlugin implements Plugin<Project> {
        project.genConf.group = 'liquibase'
     }
 
-    def addPackagingTasks(project){
-       project.task([type:Wrapper],'wrapper').configure {
-        gradleVersion = '0.9.2'
-        disterbutionUrl = 'http://bob:8081/artifactory/repo'
-	 }
-
-       project.apply(plugin:'base')
-       project.wrapper.outputs.files 'gradlew.bat'
-       ['gradle','userHome'].each{ project.wrapper.outputs.dir it }
-
-       def liquidPackage = project.task([description :"packages liquibase for deployment",type: Zip],"liquidPackage")   
-       liquidPackage.with{
-          	archiveName='liquid-distributable.zip'
-            destinationDir=project.buildDir
-            from(project.projectDir){
-              fileMode = 0775
-              include 'gradlew'
-		}
-            from(project.projectDir){
-              include 'gradle/**','gradlew.bat','src/**','build.gradle'
-		}
-	 }
-    }
 }

@@ -15,8 +15,13 @@ class ProjectStrap {
     def createProjectWithPlugin(pluginClass) {
         buildDir.mkdir()
         def project = ProjectBuilder.builder().withProjectDir(buildDir).build()
+        addLiquidBuildDep(project)
         project.apply(plugin: pluginClass)
         project
+    }
+
+    def addLiquidBuildDep(project){
+       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'liquibase', version:'1.2'])
     }
 
     def createChangeSets() {
