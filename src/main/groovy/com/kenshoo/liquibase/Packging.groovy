@@ -5,7 +5,14 @@ import org.gradle.api.tasks.bundling.Zip
 import groovy.text.SimpleTemplateEngine
 
 class Packging {
+
+
+     private output  
+     private resolve = {path -> "${output}/${path}" }
+     
      def addPackagingTasks(project){
+       project.apply(plugin:'base')
+       output = project.buildDir
        addWrapper(project)
        addPackage(project)
      }
@@ -16,16 +23,21 @@ class Packging {
 
        liquidPackage.with{
           	archiveName='liquid-distributable.zip'
-            destinationDir=project.buildDir
-            from(project.projectDir){
+            destinationDir=output
+            from(output){
               fileMode = 0775
               include 'gradlew'
 		}
-            from(project.projectDir){
-              include 'gradle/**','gradlew.bat','src/**'
-		}
 
             from(project.projectDir){
+              include 'src/**'
+		}
+
+            from(output){
+              include 'gradle/**','gradlew.bat'
+		}
+
+            from(output){
               include 'build.gradle.packaged'
               rename {
                 'build.gradle'
@@ -43,11 +55,12 @@ class Packging {
        project.task([type:Wrapper],'wrapper').configure {
         gradleVersion = '0.9.2'
         disterbutionUrl = 'http://bob:8081/artifactory/repo'
+        scriptDestinationPath = output
+        jarPath = resolve("gradle/wrapper")
 	 }
 
-       project.apply(plugin:'base')
-       project.wrapper.outputs.files 'gradlew.bat'
-       ['gradle','userHome'].each{ project.wrapper.outputs.dir it }
+       project.wrapper.outputs.files resolve('gradlew.bat')
+       ['gradle','userHome'].each{ project.wrapper.outputs.dir resolve(it) }
      }
 
      def generateBuildGradle(project) {
@@ -57,8 +70,7 @@ class Packging {
         def binding = [version:version]
         def text = new ClasspathMangler().readResourceText('templates/build.gradle.gsp')
         def template = engine.createTemplate(text).make(binding)
-        template.toString()
-        new File("${project.projectDir}/build.gradle.packaged").write(template.toString())
+        new File(resolve('build.gradle.packaged')).write(template.toString())
      }
   
 }

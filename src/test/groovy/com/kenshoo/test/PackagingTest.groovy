@@ -23,7 +23,7 @@ class PackagingTest {
    
   @Test
   public void wrapper(){
-    def wrapperFiles = ['gradlew','gradle'].collect {"${straper.buildDir.path}/${it}"}
+    def wrapperFiles = ['gradlew','gradle'].collect {"${project.buildDir.path}/${it}"}
     project.wrapper.execute() 
     wrapperFiles.each {assertTrue(new File(it).exists())}
     project.cleanWrapper.execute() 
@@ -35,7 +35,7 @@ class PackagingTest {
     project.wrapper.execute() 
     project.liquidPackage.execute()
     def zipFile = new java.util.zip.ZipFile(new File("${straper.buildDir.path}/build/liquid-distributable.zip"))
-    assertThat new File("${project.projectDir}/build.gradle.packaged").text, containsString("classpath 'com.kenshoo.gradle.plugins:liquibase:1.2'")
+    assertThat new File("${project.buildDir}/build.gradle.packaged").text, containsString("classpath 'com.kenshoo.gradle.plugins:liquibase:1.2'")
     assertThat zipFile.entries().collect {it.name},hasItems('gradle/','gradlew','gradlew.bat','src/','build.gradle') 
     project.cleanWrapper.execute()
   }	   
