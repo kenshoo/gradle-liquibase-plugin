@@ -23,7 +23,7 @@ class BasicActionsTest {
         def liqui = project.convention.plugins.liqui
         liqui.configurationScript = 'src/test/resources/liquid.conf'
         def strap = new LiquidStrap()
-        strap.readProperties(liqui.configurationScript)[0].with {
+        strap.readProperties(liqui.configurationScript).dbs[0].with {
             this.ds = strap.createDs(user, pass, host, name)
         }
     }
