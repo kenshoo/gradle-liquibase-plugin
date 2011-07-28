@@ -1,6 +1,7 @@
 package com.kenshoo.test
 
 import com.kenshoo.liquibase.LiquidStrap
+import com.kenshoo.liquibase.Configuration
 import groovy.sql.Sql
 import org.junit.Before
 import org.junit.After
@@ -23,7 +24,8 @@ class BasicActionsTest {
         def liqui = project.convention.plugins.liqui
         liqui.configurationScript = 'src/test/resources/liquid.conf'
         def strap = new LiquidStrap()
-        strap.readProperties(liqui.configurationScript).dbs[0].with {
+        def configuration = new Configuration(liqui.configurationScript)
+        configuration.dbs[0].with {
             this.ds = strap.createDs(user, pass, host, name)
         }
     }

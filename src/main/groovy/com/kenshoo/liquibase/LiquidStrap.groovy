@@ -30,7 +30,4 @@ class LiquidStrap {
         new MysqlDataSource(user: user, password: pass, serverName: host, databaseName: name)
     }
 
-    def readProperties(configurationScript) {
-        new GroovyShell().evaluate(new File(configurationScript))
-    }
 }
