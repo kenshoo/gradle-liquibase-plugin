@@ -37,8 +37,10 @@ class LiquibasePlugin implements Plugin<Project> {
                 def invoker = new LiquiMethodInvoker()
                 def liqui = project.convention.plugins.liqui
                 def strap = new LiquidStrap()
-                def props =  strap.readProperties(liqui.configurationScript).dbs
-                props.each {config -> 
+                def configuration = new Configuration(liqui.configurationScript)
+                configuration.applyDefaults(project,taskMeta)
+                def dbs =  configuration.dbs
+                dbs.each {config -> 
                   new HostsAssertion().assertHostName(config.host)
                   logger.info(Logging.LIFECYCLE, "Executing ${taskMeta.name} on database ${config['name']} under hostname ${config['host']}:" )
                   invoker.invoke(project, taskMeta, strap.build(config))
@@ -54,5 +56,7 @@ class LiquibasePlugin implements Plugin<Project> {
        }
        project.genConf.group = 'liquibase'
     }
+
+   
 
 }
