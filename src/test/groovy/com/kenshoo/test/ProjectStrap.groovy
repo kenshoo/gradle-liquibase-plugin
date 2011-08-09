@@ -15,6 +15,7 @@ class ProjectStrap {
     def createProjectWithPlugin(pluginClass) {
         buildDir.mkdir()
         def project = ProjectBuilder.builder().withProjectDir(buildDir).build()
+        project.version = '1.0'
         addLiquidBuildDep(project)
         project.apply(plugin: pluginClass)
         project
