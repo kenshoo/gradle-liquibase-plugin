@@ -20,10 +20,9 @@ class Packging {
      private def addPackage(project) {
        def liquidPackage = project.task([description :'packages liquibase for deployment',type: Zip],'liquidPackage')   
        liquidPackage.group = 'liquibase'
-       liquidPackage.version= project.version
-
+       liquidPackage.version = project.hasProperty('build')?  "${project.version}_${project.build}" : project.version
        liquidPackage.with {
-          	archiveName="liquid-distributable-${project.version}_${project.build}.zip"
+          	archiveName="liquid-distributable-${version}.zip"
             destinationDir=output
             from(output){
               fileMode = 0775
