@@ -4,7 +4,7 @@ version = '1.0.7'
 
 dependencies {
     compile 'org.liquibase:liquibase-core:2.0.1'
-    compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7'
+    compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.1'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0-SNAPSHOT'
     compile 'mysql:mysql-connector-java:5.1.9'
