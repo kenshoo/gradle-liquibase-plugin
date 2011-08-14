@@ -5,7 +5,10 @@ import com.kenshoo.liquibase.Configuration
 import groovy.sql.Sql
 import org.junit.Before
 import org.junit.After
+import org.junit.AfterClass
+import static org.junit.Assert.*
 import org.junit.Test
+
 
 /**
  * User: ronen
@@ -18,25 +21,35 @@ class BasicActionsTest {
     def ds
     def tag = UUID.randomUUID().toString()
 
+    static class DatasourceCreator {
+       def configurationScript = 'src/test/resources/liquid.conf'
+
+       def createDs (){
+         def configuration = new Configuration(configurationScript)
+         def strap = new LiquidStrap()
+         configuration.dbs[0].with {
+          strap.createDs(user, pass, host, name)
+         }
+	 }
+    }
+
     @Before
     public void setup() {
         project = new ProjectStrap().createProjectWithPlugin(com.kenshoo.liquibase.LiquibasePlugin)
         def liqui = project.convention.plugins.liqui
         liqui.configurationScript = 'src/test/resources/liquid.conf'
-        def strap = new LiquidStrap()
-        def configuration = new Configuration(liqui.configurationScript)
-        configuration.dbs[0].with {
-            this.ds = strap.createDs(user, pass, host, name)
-        }
-    }
+        ds = new DatasourceCreator().createDs()
+     }
 
-    @After
-    public void cleanup() {
-        def sql = new Sql(ds)
-        ['drop database if exists ronen', 'create database ronen'].each {
+    // @AfterClass
+    public static void cleanup() {
+        def sql = new Sql(new DatasourceCreator().createDs())
+        ['drop database if exists liquid_dev', 'create database liquid_dev'].each {
             sql.execute(it)
         }
     }
+
+    
 
     @Test
     public void reporting() {
@@ -64,7 +77,9 @@ class BasicActionsTest {
         project.contexts = ""
         project.update.execute()
         def sql = new Sql(ds)
-        sql.execute('select * from play')// will fail if play does not exists
+        def rows = sql.rows('select * from play')
+        assertEquals(1,rows.size())
+        assertEquals(1,rows.first()['id'])
     }
 
 
