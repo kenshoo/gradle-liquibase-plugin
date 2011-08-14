@@ -14,8 +14,7 @@ databaseChangeLog() {
   }
 
   changeSet(id: 'bla', author: 'ronen') {
-   rename {
-       tableName("play")
+   rename(tableName:'play'){
        columnName("name") 
        newValue("'moshe'")
    }
