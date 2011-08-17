@@ -3,6 +3,7 @@ package com.kenshoo.liquibase
 import org.gradle.api.tasks.wrapper.Wrapper 
 import org.gradle.api.tasks.bundling.Zip
 import groovy.text.SimpleTemplateEngine
+import org.gradle.api.tasks.wrapper.Wrapper.PathBase.*
 
 class Packging {
 
@@ -34,7 +35,7 @@ class Packging {
 		}
 
             from(output){
-              include 'gradle/**','gradlew.bat'
+              include 'gradle/**','gradlew.bat','wrapper/dists/*.zip'
 		}
 
             from(output){
@@ -47,16 +48,18 @@ class Packging {
 
 	 liquidPackage.doFirst {
 	    generateBuildGradle(project)
+	    prefetchWrapper(project)
 	 }
-
      }
 
      private def addWrapper(project) {
        project.task([type:Wrapper],'wrapper').configure {
-        gradleVersion = '0.9.2'
-        disterbutionUrl = 'http://bob:8081/artifactory/repo'
-        scriptDestinationPath = output
-        jarPath = resolve("gradle/wrapper")
+         gradleVersion = '0.9.2'
+         disterbutionUrl = 'http://bob:8081/artifactory/repo'
+         scriptDestinationPath = output
+         jarPath = resolve("gradle/wrapper")
+         archiveBase = Wrapper.PathBase.PROJECT
+         distributionBase = Wrapper.PathBase.PROJECT
 	 }
 
        project.wrapper.outputs.files resolve('gradlew.bat')
@@ -71,6 +74,16 @@ class Packging {
         def text = new ClasspathMangler().readResourceText('templates/build.gradle.gsp')
         def template = engine.createTemplate(text).make(binding)
         new File(resolve('build.gradle.packaged')).write(template.toString())
+     }
+
+     def prefetchWrapper(project){
+     	 def process  = "./gradlew tasks".execute(null, project.buildDir)
+     	 process.waitFor()
+     	 assert process.exitValue() == 0
+     }
+
+     def patchWrapperBins(){
+
      }
   
 }
