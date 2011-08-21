@@ -22,7 +22,10 @@ class ProjectStrap {
     }
 
     def addLiquidBuildDep(project){
-       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'liquibase', version:'1.2'])
+       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'liquibase', version:'1.0.8'])
+       project.buildscript.repositories {
+         mavenRepo(name: 'plugins-repo', urls: "http://bob:8081/artifactory/repo" ).setSnapshotTimeout(0)
+	 }
     }
 
     def createChangeSets() {

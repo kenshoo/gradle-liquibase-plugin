@@ -44,6 +44,8 @@ class Packging {
                 'build.gradle'
 		  }
 		}
+
+            from project.buildscript.configurations.classpath 
 	 }
 
 	 liquidPackage.doFirst {
@@ -81,9 +83,4 @@ class Packging {
      	 process.waitFor()
      	 assert process.exitValue() == 0
      }
-
-     def patchWrapperBins(){
-
-     }
-  
 }
