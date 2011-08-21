@@ -6,8 +6,6 @@ import groovy.text.SimpleTemplateEngine
 import org.gradle.api.tasks.wrapper.Wrapper.PathBase.*
 
 class Packging {
-
-
      private output  
      private resolve = {path -> "${output}/${path}" }
      

@@ -11,6 +11,7 @@ import org.gradle.testfixtures.ProjectBuilder
  */
 class ProjectStrap {
     def buildDir = new File("${System.getProperty('user.dir')}/build/mocked-prj")
+    def pluginVersion = '1.0.8'
 
     def createProjectWithPlugin(pluginClass) {
         buildDir.mkdir()
@@ -22,7 +23,7 @@ class ProjectStrap {
     }
 
     def addLiquidBuildDep(project){
-       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'liquibase', version:'1.0.8'])
+       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'liquibase', version:pluginVersion])
        project.buildscript.repositories {
          mavenRepo(name: 'plugins-repo', urls: "http://bob:8081/artifactory/repo" ).setSnapshotTimeout(0)
 	 }
