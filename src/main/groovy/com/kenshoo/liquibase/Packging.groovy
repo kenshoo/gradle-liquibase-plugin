@@ -8,7 +8,17 @@ import org.gradle.api.tasks.wrapper.Wrapper.PathBase.*
 class Packging {
      private output  
      private resolve = {path -> "${output}/${path}" }
-     
+
+     def fromAction = {where,what,apply ->
+         from(where){
+          if(what){
+            include what
+	    }
+          apply.delegate = delegate
+          apply()
+	   }
+      }
+
      def addPackagingTasks(project){
        project.apply(plugin:'base')
        output = project.buildDir
@@ -20,30 +30,22 @@ class Packging {
        def liquidPackage = project.task([description :'packages liquibase for deployment',type: Zip],'liquidPackage')   
        liquidPackage.group = 'liquibase'
        liquidPackage.version = project.hasProperty('build')?  "${project.version}_${project.build}" : project.version
+       fromAction.delegate = liquidPackage
+
+       [[where:output,what:'gradlew',action:{fileMode = 0775}],
+        [where:project.projectDir,what:'src/**'],
+        [where:output,what:['gradle/**','gradlew.bat','wrapper/dists/*.zip']],
+        [where:output,what:'build.gradle.packaged',action:{rename {'build.gradle'}}],
+        [where:project.buildscript.configurations.classpath]
+       ].each {from ->
+          from.with{ 
+            fromAction(where,what,action?: {})
+	    }
+	 }
+       
        liquidPackage.with {
           	archiveName="liquid-distributable-${version}.zip"
             destinationDir=output
-            from(output){
-              fileMode = 0775
-              include 'gradlew'
-		}
-
-            from(project.projectDir){
-              include 'src/**'
-		}
-
-            from(output){
-              include 'gradle/**','gradlew.bat','wrapper/dists/*.zip'
-		}
-
-            from(output){
-              include 'build.gradle.packaged'
-              rename {
-                'build.gradle'
-		  }
-		}
-
-            from project.buildscript.configurations.classpath 
 	 }
 
 	 liquidPackage.doFirst {
