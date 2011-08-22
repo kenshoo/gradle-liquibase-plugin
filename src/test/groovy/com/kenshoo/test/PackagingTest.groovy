@@ -36,8 +36,9 @@ class PackagingTest {
     project.liquidPackage.execute()
     def zipFile = new java.util.zip.ZipFile(new File("${straper.buildDir.path}/build/${project.liquidPackage.archiveName}"))
     assertThat new File("${project.buildDir}/build.gradle.packaged").text, containsString("classpath 'com.kenshoo.gradle.plugins:liquibase:1.0.8'")
-    assertThat zipFile.entries().collect {it.name},hasItems('gradle/','gradlew','gradlew.bat','src/','build.gradle','wrapper/dists/gradle-0.9.2-bin.zip') 
-    assertThat zipFile.entries().collect {it.name},hasItems("liquibase-${straper.pluginVersion}.jar".toString()) 
+    def entries = zipFile.entries().collect {it.name}
+    assertThat entries,hasItems('gradle/','gradlew','gradlew.bat','src/','build.gradle','wrapper/dists/gradle-0.9.2-bin.zip') 
+    assertThat entries,hasItems("liquibase-${straper.pluginVersion}.jar".toString()) 
     project.cleanWrapper.execute()
   }	   
  
