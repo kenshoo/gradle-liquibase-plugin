@@ -50,7 +50,7 @@ class LiquibasePlugin implements Plugin<Project> {
     }
 
     def addGeneratorTasks(project) {
-       project.task([description: "generate liquid configuration file (liqui.conf)\n"], "genConf") << {
+       project.task([description: "generate liquid configuration file (liqui.conf)\n"], 'genConf') << {
          new Generator().generateConfiguration(project) 
        }
        project.genConf.group = 'liquibase'
