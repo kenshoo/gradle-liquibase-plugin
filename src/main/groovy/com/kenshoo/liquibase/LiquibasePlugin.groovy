@@ -25,7 +25,6 @@ class LiquibasePlugin implements Plugin<Project> {
     void apply(Project project) {
         addLiquidTasks(project)
         addGeneratorTasks(project)
-        new Packging().addPackagingTasks(project)
     }
 
     def addLiquidTasks(project) {
