@@ -40,5 +40,6 @@ class StandaloneTest {
      assertThat dyanmicProperties.properties.dbName,is(notNullValue())
      assertThat project.hasProperty('dbName'),is(true)
      standalone.tasks.genConf.doLast.call()
+     assertThat new File('liquid.conf').text, containsString("name: 'play'")
  }
 }
