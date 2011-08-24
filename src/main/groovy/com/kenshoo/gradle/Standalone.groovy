@@ -23,7 +23,7 @@ class Standalone {
     
   def instance() {
     tasks['tasks'].doLast = printTasks
-    tasks.tasks.description = "tasks - Prints the list of available tasks and input parameters.\n"
+    tasks.tasks.description = "Prints the list of available tasks and input parameters.\n"
     def project = [ 
 	getConvention: {convention},
 	task: { props,name -> 
