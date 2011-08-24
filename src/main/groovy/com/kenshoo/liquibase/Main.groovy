@@ -14,9 +14,10 @@ import com.kenshoo.gradle.ArgsParser
 class Main {
     public static void main(String[] args) {
     	 def task = args.first()
-       def project = new Standalone().instance()
+    	 def standalone = new Standalone()
+       def project = standalone.instance()
     	 new ArgsParser().apply(project,args) 
        new LiquibasePlugin().apply(project)
-       project."$task".doLast()
+       standalone.tasks."$task".doLast()
     }
 }
