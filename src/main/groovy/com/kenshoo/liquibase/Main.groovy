@@ -10,9 +10,11 @@ import liquibase.resource.FileSystemResourceAccessor
 import org.gradle.api.Project
 import com.kenshoo.gradle.Standalone
 import com.kenshoo.gradle.ArgsParser
+import org.apache.log4j.BasicConfigurator
 
 class Main {
     public static void main(String[] args) {
+       BasicConfigurator.configure()
     	 def task = args.first()
     	 def standalone = new Standalone()
        def project = standalone.instance()
