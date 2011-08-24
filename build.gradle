@@ -13,7 +13,10 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
 }
 
-jar {
-  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-  manifest { attributes 'Main-Class': 'com.kenshoo.liquibase.Main' }
+if(project.hasProperty('standalone')){
+  jar.baseName = 'liquibase-standalone'
+  jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest { attributes 'Main-Class': 'com.kenshoo.liquibase.Main' }
+  }
 }
