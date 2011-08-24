@@ -20,6 +20,10 @@ class Main {
        def project = standalone.instance()
     	 new ArgsParser().apply(project,args) 
        new LiquibasePlugin().apply(project)
+       if(!standalone.tasks."$task"){
+          println("no task named ${task} found, run tasks in order to see which tasks are available.")
+          System.exit(1)
+	 }
        standalone.tasks."$task".doLast()
     }
 }
