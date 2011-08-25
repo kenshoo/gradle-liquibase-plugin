@@ -14,16 +14,27 @@ import org.apache.log4j.BasicConfigurator
 
 class Main {
     public static void main(String[] args) {
-       BasicConfigurator.configure()
-    	 def task = args.first()
-    	 def standalone = new Standalone()
-       def project = standalone.instance()
-    	 new ArgsParser().apply(project,args) 
-       new LiquibasePlugin().apply(project)
-       if(!standalone.tasks."$task"){
-          println("no task named ${task} found, run tasks in order to see which tasks are available.")
-          System.exit(1)
-	 }
-       standalone.tasks."$task".doLast()
+    	try {
+	    BasicConfigurator.configure()
+	    def standalone = new Standalone()
+	    def project = standalone.instance()
+	    new ArgsParser().apply(project,args) 
+	    new LiquibasePlugin(addPackage:false).apply(project)
+
+	    if(!args){
+		  throw new RuntimeException("Please select which task to run (run tasks in order to see available tasks).")
+	    }
+
+	    def task = args.first()
+
+	    if(!standalone.tasks."$task"){
+		  throw new RuntimeException("no task named ${task} found, run tasks in order to see which tasks are available.")
+	    }
+
+	    standalone.tasks."$task".doLast()
+	} catch(e){
+	  println e.message
+        System.exit(1)
+	}
     }
 }
