@@ -7,24 +7,21 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
- /**
- * Created by IntelliJ IDEA.
- * User: ronen
- * Date: 4/4/11
- * Time: 3:00 PM
- */
 class LiquibasePlugin implements Plugin<Project> {
 
     def Logger logger = LoggerFactory.getLogger(this.class)
+    def addPackage = true
 
     public class LiquibasePluginConvention {
         def configurationScript = 'liquid.conf'
     }
 
-
     void apply(Project project) {
         addLiquidTasks(project)
         addGeneratorTasks(project)
+        if(addPackage){
+          new Packging().addPackage(project)
+	  }
     }
 
     def addLiquidTasks(project) {
