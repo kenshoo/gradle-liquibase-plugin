@@ -42,6 +42,14 @@ class ArgsParsingTest {
   }
 
   @Test
+  public void quotedArguments(){
+    new ArgsParser().apply(project, ['generateDocumentation', "-Pcontexts=\"regular\"","-PoutputDirectory=\"/tmp\""])
+    assertThat project.contexts, is(equalTo('regular'))
+    assertThat project.outputDirectory, is(equalTo('/tmp'))
+  }
+
+
+  @Test
   public void noArguments(){
     new ArgsParser().apply(project, ["reportStatus"])
   }
@@ -50,5 +58,7 @@ class ArgsParsingTest {
   public void nothingWrongParam(){
     new ArgsParser().apply(project, ["reportStatus","tasks"])
   }
+
+
 
 }
