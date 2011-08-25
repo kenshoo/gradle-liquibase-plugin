@@ -47,7 +47,11 @@ class LiquibasePlugin implements Plugin<Project> {
     }
 
     def addGeneratorTasks(project) {
-       project.task([description: "generate liquid configuration file (liqui.conf)\n"], 'genConf') << {
+       def desc = """generate liquid configuration file (liqui.conf)
+Can be invoked by providing either of the following options:
+genConf -PdbUser=[String value] -PdbPass=[String value] -PdbHost=[String value] -PdbName=[String value] 
+       """
+       project.task([description: desc], 'genConf') << {
          new Generator().generateConfiguration(project) 
        }
        project.genConf.group = 'liquibase'
