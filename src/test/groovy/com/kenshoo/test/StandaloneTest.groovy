@@ -25,7 +25,7 @@ class StandaloneTest {
  public void setup(){
     standalone = new Standalone()
     project = standalone.instance()
-    def plugin = new LiquibasePlugin()
+    def plugin = new LiquibasePlugin(addPackage:false)
     plugin.apply(project)
  }
 
