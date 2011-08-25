@@ -46,5 +46,9 @@ class ArgsParsingTest {
     new ArgsParser().apply(project, ["reportStatus"])
   }
 
+  @Test(expected=RuntimeException.class)
+  public void nothingWrongParam(){
+    new ArgsParser().apply(project, ["reportStatus","tasks"])
+  }
 
 }
