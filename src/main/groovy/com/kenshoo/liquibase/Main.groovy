@@ -11,11 +11,17 @@ import org.gradle.api.Project
 import com.kenshoo.gradle.Standalone
 import com.kenshoo.gradle.ArgsParser
 import org.apache.log4j.BasicConfigurator
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class Main {
+
     public static void main(String[] args) {
+
+      def Logger logger = LoggerFactory.getLogger(this.class);
+
     	try {
-	    BasicConfigurator.configure()
+	    // BasicConfigurator.configure()
 	    def standalone = new Standalone()
 	    def project = standalone.instance()
 	    new ArgsParser().apply(project,args) 
@@ -33,7 +39,7 @@ class Main {
 
 	    standalone.tasks."$task".doLast()
 	} catch(e){
-	  println e.message
+	  logger.error(e.message)
         System.exit(1)
 	}
     }
