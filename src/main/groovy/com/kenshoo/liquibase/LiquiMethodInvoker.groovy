@@ -68,8 +68,8 @@ class LiquiMethodInvoker {
 
 
         if (taskMeta.name.equals('generateDocumentation') && !isHeadless()) {
-          def url = "file://${project.outputDirectory}/index.html"
-          java.awt.Desktop.getDesktop().browse(java.net.URI.create(url)); 
+          def url = new File("${project.outputDirectory}${File.separator}index.html").toURI()
+          java.awt.Desktop.getDesktop().browse(url)
 	  }
 
         if (result) {
