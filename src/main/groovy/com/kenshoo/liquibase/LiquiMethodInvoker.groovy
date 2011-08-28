@@ -3,6 +3,7 @@ package com.kenshoo.liquibase
 import org.gradle.api.logging.Logging
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import static java.awt.GraphicsEnvironment.isHeadless
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,7 +42,7 @@ class LiquiMethodInvoker {
         }
         addNonUserProvided(taskMeta, convertedValues, project)
         def result = liquid.metaClass.invokeMethod(liquid, taskMeta.name, convertedValues as Object[])
-        reportBack(convertedValues, result)
+        reportBack(convertedValues, result, taskMeta, project)
     }
 
     private def addNonUserProvided(taskMeta, convertedValues, project) {
@@ -59,11 +60,18 @@ class LiquiMethodInvoker {
         return !match && sortedReverse
     }
 
-    private reportBack(values, result) {
+    private reportBack(values, result, taskMeta, project) {
         def output = values.find {it.class.equals(StringWriter.class)}
         if (output) {
             logger.info(Logging.LIFECYCLE, output.toString())
         }
+
+
+        if (taskMeta.name.equals('generateDocumentation') && !isHeadless()) {
+          def url = "file://${project.outputDirectory}/index.html"
+          java.awt.Desktop.getDesktop().browse(java.net.URI.create(url)); 
+	  }
+
         if (result) {
             result.each {
                 if (it.respondsTo('summary')) {
