@@ -1,6 +1,6 @@
 apply plugin:'base'
 
-version = '1.0.12'
+version = '1.0.13'
 
 dependencies {
     compile 'org.liquibase:liquibase-core:2.0.1'
