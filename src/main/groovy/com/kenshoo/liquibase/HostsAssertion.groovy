@@ -4,7 +4,7 @@ import java.net.InetAddress
 class HostsAssertion {
 
     def ipFromName = { host -> InetAddress.getByName(host).hostAddress}
-    def limitedSubnets = ['10.63.9.', '10.103.9.']
+    def limitedSubnets = ['10.63.9.', '10.103.']
 
     def assertHostName(destination) {
 	 limitedSubnets.each { subnet ->
