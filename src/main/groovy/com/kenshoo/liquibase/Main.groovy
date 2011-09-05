@@ -22,6 +22,7 @@ class Main {
 
     	try {
 	    // BasicConfigurator.configure()
+	    logger.info("Got arguments ${args}")
 	    def standalone = new Standalone()
 	    def project = standalone.instance()
 	    new ArgsParser().apply(project,args) 
