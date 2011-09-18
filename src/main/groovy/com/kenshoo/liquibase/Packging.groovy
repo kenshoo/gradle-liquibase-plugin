@@ -48,7 +48,7 @@ class Packging {
 	  }
 	  
 	  liquidPackage.with {
-	     archiveName="liquid-distributable-${version}.zip"
+	     archiveName="liquid-distributable_${version}.zip"
            destinationDir = new File("${project.buildDir}/libs/")
 	  }
 
