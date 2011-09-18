@@ -6,8 +6,6 @@ import groovy.text.SimpleTemplateEngine
 import org.gradle.api.tasks.wrapper.Wrapper.PathBase.*
 
 class Packging {
-     private output  
-     private resolve = {path -> "${output}/${path}" }
 
      def fromAction = {where,what,apply ->
          from(where){
@@ -21,7 +19,6 @@ class Packging {
 
      def addPackagingTasks(project){
        project.apply(plugin:'base')
-       output = project.buildDir
        addPackage(project)
      }
      
@@ -52,7 +49,7 @@ class Packging {
 	  
 	  liquidPackage.with {
 	     archiveName="liquid-distributable-${version}.zip"
-           destinationDir = project.buildDir
+           destinationDir = new File("${project.buildDir}/libs/")
 	  }
 
 	}
