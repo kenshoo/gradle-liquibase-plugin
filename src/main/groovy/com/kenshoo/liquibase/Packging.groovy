@@ -26,7 +26,7 @@ class Packging {
      	  project.apply(plugin:'base')
 	  def liquidPackage = project.task([description :'packages liquibase for deployment',type: Zip],'liquidPackage')   
 	  liquidPackage.group = 'liquibase'
-	  liquidPackage.version = project.hasProperty('build')?  "${project.version}_${project.build}" : project.version
+	  liquidPackage.version = project.hasProperty('buildNum')?  "${project.version}_${project.buildNum}" : project.version
 
 	  project.configurations {
 		standalone 
@@ -52,10 +52,6 @@ class Packging {
 	     archiveName="liquid-distributable_${version}.zip"
            destinationDir = new File("${project.buildDir}/libs/")
 	  }
-
-        project.artifacts {
-           liquidPackage
-        }
 
         liquidPackage.outputs.files liquidPackage.archivePath
         liquidPackage.outputs.dir liquidPackage.destinationDir
