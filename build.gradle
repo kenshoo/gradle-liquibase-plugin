@@ -7,8 +7,17 @@ group = 'com.kenshoo.gradle.plugins'
 version = '1.0.3'
 
 sourceCompatibility = 1.6
-
 [compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'} 
+
+sourceSets {
+ integrationTest {
+    compileClasspath = sourceSets.main.classes + sourceSets.test.classes + configurations.testRuntime + configurations.testCompile
+    runtimeClasspath = classes + sourceSets.main.classes + sourceSets.test.classes + configurations.testRuntime + configurations.testCompile
+    groovy {
+      srcDir 'src/integration/groovy/'
+    }
+ }
+}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
@@ -19,7 +28,6 @@ dependencies {
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
     compile 'mysql:mysql-connector-java:5.1.9'
-    testCompile('com.kenshoo.gradle.plugins:new-db:1.1')
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
 }
 
@@ -29,4 +37,9 @@ if(project.hasProperty('standalone')){
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest { attributes 'Main-Class': 'com.kenshoo.liquibase.Main' }
   }
+}
+
+task integrationTest(type: Test, description: 'Runs all integration tests') {
+    testClassesDir = sourceSets.integrationTest.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
 }
