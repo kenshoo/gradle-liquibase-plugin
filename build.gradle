@@ -1,14 +1,24 @@
 apply plugin:'base'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'idea'
 
+group = 'com.kenshoo.gradle.plugins'
 version = '1.0.3'
 
+sourceCompatibility = 1.6
+
+[compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'} 
+
 dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.8.2'
+    groovy 'org.codehaus.groovy:groovy:1.8.0'
+    compile gradleApi()
     compile 'org.liquibase:liquibase-core:2.0.1'
     compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.3'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
     compile 'mysql:mysql-connector-java:5.1.9'
-    testRuntime("org.easyb:easyb:0.9.8@jar") { transitive = true }
     testCompile('com.kenshoo.gradle.plugins:new-db:1.1')
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
 }
