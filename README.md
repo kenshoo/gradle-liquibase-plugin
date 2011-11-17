@@ -3,8 +3,8 @@ This plugin integrates the use of [liquibase]() [gradle]() and [groovy liquibase
 
 For more info and usage please follow the [wiki]().
 
-## Development
-The development and design were made by [Ronen Narkis](narkisr.com) while working in [kenshoo](http://kenshoo.com).
+## Authors
+Development and design were made by [Ronen Narkis](narkisr.com) at kenshoo.com.
 
 ## License
 This code is released under the Apache Public License 2.0.
