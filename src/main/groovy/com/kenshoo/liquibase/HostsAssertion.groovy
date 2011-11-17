@@ -15,14 +15,16 @@
 */  
 package com.kenshoo.liquibase
 import java.net.InetAddress
+import groovy.util.Eval
 
 class HostsAssertion {
 
     def ipFromName = { host -> InetAddress.getByName(host).hostAddress}
-    def limitedSubnets = ['10.63.', '10.103.']
 
     def assertHostName(destination) {
-	 limitedSubnets.each { subnet ->
+       def script = new ClasspathMangler().readResourceText('LimitedSubnets.groovy')
+       def limitedSubnets = Eval.me(script)
+	 limitedSubnets?.each { subnet ->
 		if(ipFromName(destination).startsWith(subnet) && !localAddresses().every{it.startsWith(subnet)}){
 		   throw new Exception("Running liquibase on ${destination} which is under ${subnet}% subnet is forbiden!")
 		}
