@@ -1,5 +1,5 @@
 # Gradle liquibase plugin
-This plugin integrates [gradle](http://gradle.org), [liquibase](http://www.liquibase.org/) and the liquibase Groovy [DSL](https://github.com/tlberglund/groovy-liquibase), it offers a complete life cycle management of database schemas from build to production.
+This plugin integrates [Gradle](http://gradle.org), [Liquibase](http://www.liquibase.org/) and the Liquibase Groovy [DSL](https://github.com/tlberglund/groovy-liquibase), it offers a complete life cycle management of database schemas from build to production.
 
 ## It provides the following feature set:
 
