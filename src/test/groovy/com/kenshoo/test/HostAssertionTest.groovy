@@ -32,10 +32,10 @@ class HostsAssertionTest {
      assertThat ips.first(),containsString('192.168.')
   }
 
-  @Test(expected = Exception.class)
+   @Test(expected = Exception.class)
   public void sanity(){
     def assertion = new HostsAssertion()
-    assertion.limitedSubnets = ['192.168.1']
+    // assertion.limitedSubnets = ['192.168.1']
     assertion.localAddresses= {['192.168.4.16']}
     assertion.ipFromName = {host -> '192.168.1.1'}
     assertion.assertHostName('bla')
