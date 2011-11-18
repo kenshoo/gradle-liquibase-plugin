@@ -53,3 +53,10 @@ task generateLimitSubnets << {
 }
 
 jar.dependsOn(generateLimitSubnets)
+
+
+uploadArchives {
+	repositories.mavenDeployer {
+		repository(url: "file:///${System.getProperty('user.home')}/kenshoo/maven-repository/")
+	}
+}
