@@ -49,7 +49,7 @@ class Packging {
 
         def plugin = project.buildscript.configurations.classpath.dependencies.find {it.name.contains('liquibase')}
         project.dependencies {
-	    standalone("${plugin.group}:${plugin.name}-standalone:${plugin.version}"){
+	    standalone("${plugin.group}:liquibase-standalone:${plugin.version}"){
 	    	 transitive = false
 	    }
 	  }
