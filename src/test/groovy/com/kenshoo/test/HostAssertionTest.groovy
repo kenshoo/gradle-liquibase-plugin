@@ -29,13 +29,15 @@ class HostsAssertionTest {
   @Test
   public void localAddress(){
      def ips = new HostsAssertion().localAddresses()  
-     assertThat ips.first(),containsString('192.168.')
+     def gatewayLine = "netstat -rn".execute().text.split('\n')[-1]
+     def gateway = (gatewayLine =~ /(\d+.\d+.\d+.\d+)/)[1][0]
+     def prefix = (gateway =~ /\d+.\d+./)[0]
+     assertThat ips.first(),containsString(prefix)
   }
 
-   @Test(expected = Exception.class)
+  @Test(expected = Exception.class)
   public void sanity(){
     def assertion = new HostsAssertion()
-    // assertion.limitedSubnets = ['192.168.1']
     assertion.localAddresses= {['192.168.4.16']}
     assertion.ipFromName = {host -> '192.168.1.1'}
     assertion.assertHostName('bla')

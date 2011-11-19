@@ -32,8 +32,8 @@ class HostsAssertion {
     }
 
     def localAddresses = {
-	  NetworkInterface.getNetworkInterfaces().collect{interfaze ->
-		interfaze.inetAddresses.find { it.hostAddress.indexOf(":")==-1}
-	  }.findAll { ip -> (ip && ip.isSiteLocalAddress() && !ip.isLoopbackAddress()) }.collect {it.hostAddress}
+	 def withoutPtp = NetworkInterface.getNetworkInterfaces().findAll {!it.isPointToPoint()}
+	 def ips = withoutPtp.collect{interfaze -> interfaze.inetAddresses.find { it.hostAddress.indexOf(":")==-1} }
+	 ips.findAll { ip -> (ip && ip.isSiteLocalAddress() && !ip.isLoopbackAddress()) }.collect {it.hostAddress}
     }
 }

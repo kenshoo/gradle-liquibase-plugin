@@ -49,14 +49,14 @@ class Packging {
 
         def plugin = project.buildscript.configurations.classpath.dependencies.find {it.name.contains('liquibase')}
         project.dependencies {
-	    standalone("${plugin.group}:${plugin.name}-standalone:${plugin.version}"){
+	    standalone("${plugin.group}:liquibase-standalone:${plugin.version}"){
 	    	 transitive = false
 	    }
 	  }
 
 	  fromAction.delegate = liquidPackage
 	  [[where:project.projectDir,what:'src/**'],
-	    [where:project.configurations.standalone,action:{rename{"${plugin.name}-standalone.jar"}}]
+	    [where:project.configurations.standalone,action:{rename{"liquibase-standalone.jar"}}]
 	  ].each {from ->
 		from.with{ 
 		  fromAction(where,what,action?: {})
