@@ -5,8 +5,6 @@ apply plugin: 'base'
 apply plugin: 'liquibase'
 
 
-project.repoPath = 
-
 // required for the standalone version used in packaging
 repositories {
      mavenRepo(name: 'kenshoo-repo-local', urls: new File('kenshoo-maven-repo').toURL().toString())
@@ -23,6 +21,7 @@ buildscript {
 }
 
 
+// the published zip
 artifacts {
   archives liquidPackage
 }
