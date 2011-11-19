@@ -56,7 +56,7 @@ class Packging {
 
 	  fromAction.delegate = liquidPackage
 	  [[where:project.projectDir,what:'src/**'],
-	    [where:project.configurations.standalone,action:{rename{"${plugin.name}-standalone.jar"}}]
+	    [where:project.configurations.standalone,action:{rename{"liquibase-standalone.jar"}}]
 	  ].each {from ->
 		from.with{ 
 		  fromAction(where,what,action?: {})
