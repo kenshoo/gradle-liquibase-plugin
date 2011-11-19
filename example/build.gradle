@@ -1,0 +1,28 @@
+// The schema version 
+version='2'
+
+apply plugin: 'base'
+apply plugin: 'liquibase'
+
+
+project.repoPath = 
+
+// required for the standalone version used in packaging
+repositories {
+     mavenRepo(name: 'kenshoo-repo-local', urls: new File('kenshoo-maven-repo').toURL().toString())
+}
+
+buildscript {
+  repositories {
+     mavenRepo(name: 'kenshoo-repo-local', urls: new File('kenshoo-maven-repo').toURL().toString())
+  } 
+
+  dependencies {
+    classpath 'com.kenshoo.gradle.plugins:gradle-liquibase-plugin:1.0.4'
+  }
+}
+
+
+artifacts {
+  archives liquidPackage
+}
