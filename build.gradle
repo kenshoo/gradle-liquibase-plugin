@@ -54,9 +54,12 @@ task generateLimitSubnets << {
 
 jar.dependsOn(generateLimitSubnets)
 
-
-uploadArchives {
+if(new File('serverUpload.gradle').exists()){
+  apply from:'serverUpload.gradle'
+ } else {
+  uploadArchives {
 	repositories.mavenDeployer {
 		repository(url: "file:///${System.getProperty('user.home')}/kenshoo/maven-repository/")
 	}
-}
+  }
+} 
