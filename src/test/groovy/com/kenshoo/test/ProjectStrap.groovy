@@ -50,6 +50,7 @@ class ProjectStrap {
 
     def createChangeSets() {
        def ant = new AntBuilder()          
+       new File("${buildDir.path}/resources").mkdir()
        ant.copy(toDir:"${buildDir.path}/src"){
          fileset(dir:'src/test/resources/changelogs/src')
 	 }

@@ -42,6 +42,7 @@ class PackagingTest {
     def zipFile = new java.util.zip.ZipFile(new File("${straper.buildDir.path}/libs/${project.liquidPackage.archiveName}"))
     def entries = zipFile.entries().collect {it.name}
     assertThat entries,hasItems('src/') 
+    assertThat entries,hasItems('resources/') 
     assertThat entries,hasItems("liquibase-standalone.jar".toString()) 
   }	   
  
