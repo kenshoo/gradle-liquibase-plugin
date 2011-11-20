@@ -1,0 +1,3 @@
+[submodule "example/kenshoo-maven-repo"]
+	path = example/kenshoo-maven-repo
+	url = git://github.com/kenshoo/maven-repository.git
