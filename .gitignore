@@ -1,3 +1,4 @@
 liquibase.log
 .gradle
 build
+serverUpload.gradle
