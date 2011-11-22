@@ -4,7 +4,7 @@ apply plugin: 'maven'
 apply plugin: 'idea'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.1.0'
+version = '1.1.1'
 
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'} 
@@ -24,7 +24,7 @@ dependencies {
     groovy 'org.codehaus.groovy:groovy:1.8.0'
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:2.0.1'
-    compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.4'
+    compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.5'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
     compile 'mysql:mysql-connector-java:5.1.9'

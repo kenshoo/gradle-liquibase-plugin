@@ -29,7 +29,7 @@ class HostsAssertionTest {
   @Test
   public void localAddress(){
      def ips = new HostsAssertion().localAddresses()  
-     def gatewayLine = "netstat -rn".execute().text.split('\n')[-1]
+     def gatewayLine = "netstat -rn".execute().text.split('\n').find {it.startsWith('0.0.0.0')}
      def gateway = (gatewayLine =~ /(\d+.\d+.\d+.\d+)/)[1][0]
      def prefix = (gateway =~ /\d+.\d+./)[0]
      assertThat ips.first(),containsString(prefix)
