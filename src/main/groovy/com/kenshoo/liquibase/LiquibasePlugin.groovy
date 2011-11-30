@@ -35,7 +35,7 @@ class LiquibasePlugin implements Plugin<Project> {
         addLiquidTasks(project)
         addGeneratorTasks(project)
         if(addPackage){
-          new Packging().addPackage(project)
+          new Packging().addPackagingTasks(project)
 	  }
     }
 
