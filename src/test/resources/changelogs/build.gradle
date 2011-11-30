@@ -2,7 +2,9 @@ apply plugin: 'liquibase'
 
 buildscript {
   dependencies {
-    classpath 'com.kenshoo.gradle.plugins:liquibase:1.2'
+    classpath 'com.kenshoo.gradle.plugins:gradle-liquibase-plugin:1.1.2'
   }
 }
 
+
+project.buildscript.dependencies.add('custom',[group:'com.kenshoo.gradle.plugins',name:'liqui-custom-tasks',version:'0.4', transitive:false])
