@@ -4,7 +4,7 @@ apply plugin: 'maven'
 apply plugin: 'idea'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.1.1'
+version = '1.1.2'
 
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'} 
@@ -21,7 +21,7 @@ sourceSets {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
-    groovy 'org.codehaus.groovy:groovy:1.8.0'
+    groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.7.10'
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:2.0.1'
     compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.5'
