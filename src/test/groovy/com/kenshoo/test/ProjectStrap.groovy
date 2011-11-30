@@ -26,7 +26,7 @@ import org.gradle.testfixtures.ProjectBuilder
  */
 class ProjectStrap {
     def buildDir = new File("${System.getProperty('user.dir')}/build/")
-    def pluginVersion = '1.0.10'
+    def pluginVersion = '1.1.2'
 
     def createProjectWithPlugin(pluginClass) {
         buildDir.mkdir()
@@ -34,18 +34,19 @@ class ProjectStrap {
         project.buildDir = buildDir
         project.version = '1.0'
         addLiquidBuildDep(project)
-        project.apply(plugin: pluginClass)
+        project.apply(plugin: com.kenshoo.liquibase.LiquibasePlugin)
+        addCustom(project)
         project
     }
 
     def addLiquidBuildDep(project){
-       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'liquibase', version:pluginVersion])
-       project.buildscript.repositories {
-         mavenRepo(name: 'plugins-repo', urls: "http://bob:8081/artifactory/repo" ).setSnapshotTimeout(0)
-	 }
-       project.repositories {
-         mavenRepo(name: 'plugins-repo', urls: "http://bob:8081/artifactory/repo" ).setSnapshotTimeout(0)
-	 }
+       project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'gradle-liquibase-plugin', version:pluginVersion])
+        project.buildscript.repositories.flatDir(dirs:'src/test/repo' )
+        project.repositories.flatDir(dirs:'src/test/repo' )
+    }
+
+    def addCustom(project){
+       project.buildscript.dependencies.add('custom',[group:'com.kenshoo.gradle.plugins', name:'liqui-custom-tasks', version:pluginVersion])
     }
 
     def createChangeSets() {
