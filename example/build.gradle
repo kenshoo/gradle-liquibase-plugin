@@ -16,7 +16,7 @@ buildscript {
   } 
 
   dependencies {
-    classpath 'com.kenshoo.gradle.plugins:gradle-liquibase-plugin:1.1.0'
+    classpath 'com.kenshoo.gradle.plugins:gradle-liquibase-plugin:1.1.2'
   }
 }
 
