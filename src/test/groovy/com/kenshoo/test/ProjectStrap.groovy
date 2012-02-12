@@ -25,7 +25,8 @@ import org.gradle.testfixtures.ProjectBuilder
  * Time: 4:21 PM
  */
 class ProjectStrap {
-    def buildDir = new File("${System.getProperty('user.dir')}/build/")
+    def projectDir = System.getProperty('user.dir')
+    def buildDir = new File("${projectDir}/build")
     def pluginVersion = '1.1.2'
 
     def createProjectWithPlugin(pluginClass) {
@@ -41,8 +42,8 @@ class ProjectStrap {
 
     def addLiquidBuildDep(project){
        project.buildscript.dependencies.add('classpath',[group:'com.kenshoo.gradle.plugins', name:'gradle-liquibase-plugin', version:pluginVersion])
-        project.buildscript.repositories.flatDir(dirs:'src/test/repo' )
-        project.repositories.flatDir(dirs:'src/test/repo' )
+        project.buildscript.repositories.flatDir(dirs:'repo' )
+        project.repositories.flatDir(dirs:'repo' )
     }
 
     def addCustom(project){

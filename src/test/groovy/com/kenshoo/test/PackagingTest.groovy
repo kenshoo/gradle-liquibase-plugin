@@ -34,6 +34,10 @@ class PackagingTest {
       straper = new ProjectStrap()
       project = straper.createProjectWithPlugin(com.kenshoo.liquibase.LiquibasePlugin)
       straper.createChangeSets()
+      new AntBuilder().copy(todir:"${straper.buildDir}/repo" ) {
+        fileset(dir : "${straper.projectDir}/src/test/repo")
+	}
+
    }
    
   @Test

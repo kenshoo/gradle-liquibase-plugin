@@ -21,14 +21,14 @@ sourceSets {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
-    groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.7.10'
+    groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.8.4'
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:2.0.1'
     compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.5'
-    compile group: 'org.apache', name: 'log4j', version: '1.2.8'
+    // compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
     compile 'mysql:mysql-connector-java:5.1.9'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
+    // compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
 }
 
 if(project.hasProperty('standalone')){
