@@ -2,9 +2,10 @@ apply plugin:'base'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'idea'
+apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.1.2'
+version = '1.2.0'
 
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'} 
@@ -25,13 +26,15 @@ dependencies {
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:2.0.1'
     compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.5'
-    // compile group: 'org.apache', name: 'log4j', version: '1.2.8'
+    compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
     compile 'mysql:mysql-connector-java:5.1.9'
-    // compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
+    // compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.6.4'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
 }
 
 if(project.hasProperty('standalone')){
+
   jar.baseName = 'liquibase-standalone'
   jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

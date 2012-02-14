@@ -16,7 +16,7 @@
 package com.kenshoo.test
 
 import com.kenshoo.liquibase.LiquibaseApiResolver
-import org.apache.log4j.Logger
+// import org.apache.log4j.Logger
 import org.junit.Test
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.junit.Assert.assertThat
@@ -33,8 +33,6 @@ class ApiResolvingTest {
     def actualStdout = new PrintStream(new FileOutputStream(FileDescriptor.out))
 
     def resolver = new LiquibaseApiResolver()
-
-    def logger = Logger.getLogger(this.class.name)
 
 
     @Test
