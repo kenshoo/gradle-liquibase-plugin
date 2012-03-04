@@ -23,7 +23,7 @@ class Generator {
 
     def generateConfiguration(project) {
   	def engine = new SimpleTemplateEngine()
-  	def binding = ['dbUser', 'dbPass', 'dbHost', 'dbName','contexts'].inject([:]) { m,v ->
+  	def binding = ['dbUser', 'dbPass', 'dbHost', 'dbName','contexts', 'type'].inject([:]) { m,v ->
   	  m[v]=project.hasProperty(v)? project."$v" : '';m
 	}
   	  

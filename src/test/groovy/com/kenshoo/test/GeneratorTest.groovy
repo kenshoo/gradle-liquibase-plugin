@@ -45,16 +45,16 @@ class GeneratorTest {
  public void confGeneration(){
     def gen = new Generator()
     gen.generateConfiguration(project)
-    def expected = "[user: '', pass: '', host: '', name: '', changeLog: 'src/main/groovy/com/kenshoo/liquibase/all_versions.groovy']"
+    def expected = "[user: '', pass: '', host: '', name: '', changeLog: 'src/main/groovy/com/kenshoo/liquibase/all_versions.groovy', type: '']"
     assertThat new File(gen.configurationName).text.trim(), containsString(expected)
  }
 
  @Test
  public void parameterGeneration(){
     def gen = new Generator()
-    [dbUser:'ronen',dbPass:'1234',dbHost:'mysql1',dbName:'play'].each {k,v -> project."$k" = v}
+    [dbUser:'ronen',dbPass:'1234',dbHost:'mysql1',dbName:'play',type:'mysql'].each {k,v -> project."$k" = v}
     gen.generateConfiguration(project)
-    def expected = "[user: 'ronen', pass: '1234', host: 'mysql1', name: 'play', changeLog: 'src/main/groovy/com/kenshoo/liquibase/all_versions.groovy']"
+    def expected = "[user: 'ronen', pass: '1234', host: 'mysql1', name: 'play', changeLog: 'src/main/groovy/com/kenshoo/liquibase/all_versions.groovy', type: 'mysql']"
     assertThat new File(gen.configurationName).text.trim(), containsString(expected)
  }
 }
