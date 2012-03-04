@@ -21,7 +21,7 @@ import org.gradle.api.tasks.bundling.Jar
 import groovy.text.SimpleTemplateEngine
 import org.gradle.api.tasks.wrapper.Wrapper.PathBase.*
 
-class Packging {
+class Packaging {
 
      def fromAction = {where,what,apply ->
          from(where){
