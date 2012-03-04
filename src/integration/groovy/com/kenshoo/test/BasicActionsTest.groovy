@@ -23,6 +23,7 @@ import org.junit.After
 import org.junit.AfterClass
 import static org.junit.Assert.*
 import org.junit.Test
+import com.kenshoo.liquibase.datasource.DynamicDatasources
 
 
 /**
@@ -41,10 +42,7 @@ class BasicActionsTest {
 
        def createDs (){
          def configuration = new Configuration(configurationScript)
-         def strap = new LiquidStrap()
-         configuration.dbs[0].with {
-          strap.createDs(user, pass, host, name)
-         }
+	    new DynamicDatasources().createDs(configuration.dbs[0])
 	 }
     }
 

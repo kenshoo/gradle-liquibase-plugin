@@ -1,4 +1,4 @@
- /*
+/*
 * Copyright 2011 Kenshoo.com
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,8 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */  
+
+package com.kenshoo.liquibase
+
 class ClasspathMangler {
   def readResourceText(resource) {
-  	this.class.classLoader.getResourceAsStream(resource).text
+    def loader = this.class.classLoader
+    loader.getResourceAsStream(resource).text
   }  
 }

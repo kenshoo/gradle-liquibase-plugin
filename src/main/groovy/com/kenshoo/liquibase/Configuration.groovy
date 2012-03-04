@@ -22,8 +22,8 @@ class Configuration {
 
     def Configuration(configurationScript) {
 	def conf = new GroovyShell().evaluate(new File(configurationScript))
-	  dbs = conf.dbs
-	  defaults = conf.defaults
+	dbs = conf.dbs
+	defaults = conf.defaults
     }
 
   def applyDefaults(project,taskMeta){

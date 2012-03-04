@@ -15,7 +15,6 @@
 */  
 package com.kenshoo.liquibase
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 import liquibase.Liquibase
 import liquibase.database.Database
 import liquibase.database.DatabaseFactory
@@ -23,6 +22,7 @@ import liquibase.database.jvm.JdbcConnection
 import liquibase.parser.ChangeLogParserFactory
 import liquibase.parser.ext.GroovyLiquibaseChangeLogParser
 import liquibase.resource.FileSystemResourceAccessor
+import com.kenshoo.liquibase.datasource.DynamicDatasources
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,16 +33,11 @@ import liquibase.resource.FileSystemResourceAccessor
 class LiquidStrap {
 
 
-    def Liquibase build(configuration) {
-        configuration.with {
-            ChangeLogParserFactory.getInstance().register(new GroovyLiquibaseChangeLogParser())
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(createDs(user,pass,host,name).getConnection()))
-            new Liquibase(changeLog, new FileSystemResourceAccessor(), database)
-        }
-    }
-
-    def createDs(user, pass, host, name) {
-        new MysqlDataSource(user: user, password: pass, serverName: host, databaseName: name)
-    }
+  def Liquibase build(configuration) {
+    ChangeLogParserFactory.getInstance().register(new GroovyLiquibaseChangeLogParser())
+    def ds = new DynamicDatasources().createDs(configuration)
+    Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(ds.getConnection()))
+    new Liquibase(configuration.changeLog, new FileSystemResourceAccessor(), database)
+  }
 
 }
