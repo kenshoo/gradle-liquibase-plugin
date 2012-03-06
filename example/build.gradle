@@ -8,11 +8,13 @@ type='mysql' // setting default type value for genconf
 
 // required for the standalone version used in packaging
 repositories {
+     mavenCentral()
      mavenRepo(name: 'kenshoo-repo-local', urls: new File('kenshoo-maven-repo').toURL().toString())
 }
 
 buildscript {
   repositories {
+     mavenCentral()
      mavenRepo(name: 'kenshoo-repo-local', urls: new File('kenshoo-maven-repo').toURL().toString())
   } 
 
