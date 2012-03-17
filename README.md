@@ -9,7 +9,7 @@ This plugin integrates [Gradle](http://gradle.org), [Liquibase](http://www.liqui
  * Hosts black list, limiting the plugin from working against certain hosts (defined in build time).
  * Easy configuration of multiple destination databases and the ability to define default values for tasks. 
 
-For more info and usage please follow the [wiki](https://github.com/kenshoo-gradle/gradle-liquibase-plugin/wiki).
+For more info and usage please follow the [wiki](https://github.com/kenshoo/gradle-liquibase-plugin/wiki).
 
 ## Authors
 Development was lead by [Ronen Narkis](http://narkisr.com) and released by [Kenshoo](http://kenshoo.com).
