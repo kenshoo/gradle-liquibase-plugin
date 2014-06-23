@@ -16,7 +16,7 @@
 package com.kenshoo.test
 
 import org.junit.Test
-import static org.junit.internal.matchers.IsCollectionContaining.hasItems
+import static org.hamcrest.core.IsCollectionContaining.hasItems
 import static org.junit.Assert.assertThat
 
 /**
