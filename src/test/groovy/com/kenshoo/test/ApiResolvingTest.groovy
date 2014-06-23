@@ -19,7 +19,8 @@ import com.kenshoo.liquibase.LiquibaseApiResolver
 import org.junit.Test
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.junit.Assert.assertThat
-import static org.junit.internal.matchers.IsCollectionContaining.hasItems
+import static org.hamcrest.core.IsCollectionContaining.hasItems
+
 
  /**
  * Created by IntelliJ IDEA.

@@ -5,26 +5,30 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.3.0'
+version = '1.4.0'
+
+task('wrapper', type: Wrapper).configure {
+    gradleVersion = '1.7'
+}
 
 sourceCompatibility = 1.6
-[compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'} 
+[compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'}
 
 sourceSets {
- integrationTest {
-    compileClasspath = sourceSets.main.classes + sourceSets.test.classes + configurations.testRuntime + configurations.testCompile
-    runtimeClasspath = classes + sourceSets.main.classes + sourceSets.test.classes + configurations.testRuntime + configurations.testCompile
-    groovy {
-      srcDir 'src/integration/groovy/'
+    integrationTest {
+        compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.testRuntime + configurations.testCompile
+        runtimeClasspath = sourceSets.main.output + sourceSets.test.output + configurations.testRuntime + configurations.testCompile
+        groovy {
+            srcDir 'src/integration/groovy/'
+        }
     }
- }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
     groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.8.4'
     compile gradleApi()
-    compile 'org.liquibase:liquibase-core:2.0.1'
+    compile 'org.liquibase:liquibase-core:3.2.0'
     compile group: 'com.augusttechgroup', name: 'groovy-liquibase-dsl', version: '0.7.5'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
@@ -36,35 +40,54 @@ dependencies {
 
 if(project.hasProperty('standalone')){
 
-  jar.baseName = 'liquibase-standalone'
-  jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest { attributes 'Main-Class': 'com.kenshoo.liquibase.Main' }
-    exclude('META-INF/*.SF') 
-  }
+    jar.baseName = 'liquibase-standalone'
+    jar {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        manifest { attributes 'Main-Class': 'com.kenshoo.liquibase.Main' }
+        exclude('META-INF/*.SF')
+    }
 }
 
 task integrationTest(type: Test, description: 'Runs all integration tests') {
-    testClassesDir = sourceSets.integrationTest.classesDir
+    testClassesDir = sourceSets.integrationTest.output.classesDir
     classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
 
 task generateLimitSubnets << {
-  if(project.hasProperty('limitedSubnets')){
-    def limit = new File("${project.buildDir.name}/classes/main/LimitedSubnets.groovy")
-    limit.write(project.limitedSubnets.toString())
-  }
+    if(project.hasProperty('limitedSubnets')){
+        def limit = new File("${project.buildDir.name}/classes/main/LimitedSubnets.groovy")
+        limit.write(project.limitedSubnets.toString())
+    }
 }
 
 jar.dependsOn(generateLimitSubnets)
 
 if(new File('serverUpload.gradle').exists()){
-  apply from:'serverUpload.gradle'
- } else {
-  uploadArchives {
-	repositories.mavenDeployer {
-		repository(url: "file:///${System.getProperty('user.home')}/kenshoo/maven-repository/")
-	}
-  }
-} 
+    apply from:'serverUpload.gradle'
+} else {
+    uploadArchives {
+        repositories.mavenDeployer {
+            repository(url: "file:///${System.getProperty('user.home')}/kenshoo/maven-repository/")
+        }
+    }
+}
+
+
+uploadArchives {
+    def username = System.getProperty('username')
+    def password = System.getProperty('password')
+    def repo = System.getProperty('repo')
+    def snapshotRepo = System.getProperty('snapshotRepo')
+    repositories {
+        mavenDeployer {
+            repository(url: repo) {
+                authentication(userName: username, password: password)
+            }
+            snapshotRepository(url: snapshotRepo) {
+                authentication(userName: username, password: password)
+            }
+        }
+    }
+}
+

@@ -16,8 +16,9 @@
 package com.kenshoo.liquibase
 
 import liquibase.changelog.ChangeSet
-import liquibase.diff.Diff
+import liquibase.diff.Difference
 import liquibase.diff.DiffResult
+import liquibase.diff.output.report.DiffToReport
 import org.gradle.api.logging.Logging
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -33,11 +34,9 @@ class Results {
     def Logger logger = LoggerFactory.getLogger(this.class);
 
     def applyResultOutput() {
-        Diff.metaClass.summary = {
+        Difference.metaClass.summary = {
             DiffResult diffResult = delegate.compare()
-            ByteArrayOutputStream baos = new ByteArrayOutputStream()
-            PrintStream ps = new PrintStream(baos)
-            diffResult.printResult(ps)
+            new DiffToReport(diffResult, System.out).print();
             logger.info(Logging.LIFECYCLE, baos.toString('utf-8'))
         }
 
