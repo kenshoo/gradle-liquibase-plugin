@@ -2,3 +2,7 @@ liquibase.log
 .gradle
 build
 serverUpload.gradle
+out
+*.iml
+*.ipr
+*.iws
