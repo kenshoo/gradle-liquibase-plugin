@@ -54,7 +54,7 @@ class LiquibasePlugin implements Plugin<Project> {
                 dbs.each {config -> 
                   new HostsAssertion().assertHostName(config.host)
                   logger.info(Logging.LIFECYCLE, "Executing ${taskMeta.name} on database ${config['name']} under hostname ${config['host']}:" )
-                  invoker.invoke(project, taskMeta, strap.build(config))
+                  invoker.invoke(project, taskMeta, strap.build(config, project))
 		    }
             }
             project."${taskMeta.name}".group = 'liquibase'

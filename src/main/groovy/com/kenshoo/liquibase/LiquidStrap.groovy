@@ -1,4 +1,4 @@
- /*
+/*
 * Copyright 2011 Kenshoo.com
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/  
+*/
 package com.kenshoo.liquibase
 
 import liquibase.Liquibase
@@ -23,6 +23,7 @@ import liquibase.parser.ChangeLogParserFactory
 import liquibase.parser.ext.GroovyLiquibaseChangeLogParser
 import liquibase.resource.FileSystemResourceAccessor
 import com.kenshoo.liquibase.datasource.DynamicDatasources
+import org.gradle.api.Project
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,11 +34,33 @@ import com.kenshoo.liquibase.datasource.DynamicDatasources
 class LiquidStrap {
 
 
-  def Liquibase build(configuration) {
-    ChangeLogParserFactory.getInstance().register(new GroovyLiquibaseChangeLogParser())
-    def ds = new DynamicDatasources().createDs(configuration)
-    Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(ds.getConnection()))
-    new Liquibase(configuration.changeLog, new FileSystemResourceAccessor(), database)
-  }
+    def Liquibase build(configuration, project) {
+        ChangeLogParserFactory.getInstance().register(new GroovyLiquibaseChangeLogParser())
+        def ds = new DynamicDatasources().createDs(configuration)
+        Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(ds.getConnection()))
+        FileSystemResourceAccessor accessor = getFileSystemResourceAccessor(project)
+        accessor.toClassLoader()
+        new Liquibase(configuration.changeLog, accessor, database)
+    }
 
+    FileSystemResourceAccessor getFileSystemResourceAccessor(Project project) {
+        return new FileSystemResourceAccessor() {
+            @Override
+            public ClassLoader toClassLoader() {
+                try {
+                    return new URLClassLoader(getUrls());
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            private URL[] getUrls() {
+                ArrayList<URL> urls = new ArrayList<>();
+                this.class.classLoader.getURLs().each {URL url ->
+                        urls.add(url)
+                }
+                return  urls.toArray()
+            }
+        }
+    }
 }
