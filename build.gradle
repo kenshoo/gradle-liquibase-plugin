@@ -5,7 +5,7 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.8.0'
+version = '1.8.3'
 
 task('wrapper', type: Wrapper).configure {
     gradleVersion = '1.7'
