@@ -52,7 +52,7 @@ class GeneratorTest {
  @Test
  public void parameterGeneration(){
     def gen = new Generator()
-    [dbUser:'ronen',dbPass:'1234',dbHost:'mysql1',dbName:'play',type:'mysql'].each {k,v -> project."$k" = v}
+    [dbUser:'ronen',dbPass:'1234',dbHost:'mysql1',dbName:'play',type:'mysql'].each {k,v -> project.ext."$k" = v}
     gen.generateConfiguration(project)
     def expected = "[user: 'ronen', pass: '1234', host: 'mysql1', name: 'play', changeLog: 'src/main/groovy/com/kenshoo/liquibase/all_versions.groovy', type: 'mysql']"
     assertThat new File(gen.configurationName).text.trim(), containsString(expected)

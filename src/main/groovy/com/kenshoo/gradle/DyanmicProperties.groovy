@@ -17,7 +17,7 @@ package com.kenshoo.gradle
 
 import org.gradle.api.Project
 
-@Singleton
+@Singleton(strict=false)
 class DyanmicProperties {
 
   def properties = [:] 

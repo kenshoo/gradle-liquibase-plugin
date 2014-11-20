@@ -40,23 +40,23 @@ class ConfigurationTest {
   public void defaults(){
     def configuration = new Configuration('src/test/resources/liquid.conf')
     configuration.applyDefaults(project, tasks['update'])
-    assertThat project.contexts, equalTo('refactor,performance,qa')
+    assertThat project.ext.contexts, equalTo('refactor,performance,qa')
   }
 
   @Test
   public void withoutDefaults() {
-    project.contexts = 'yeap'
+    project.ext.contexts = 'yeap'
     def configuration = new Configuration('src/test/resources/liquid_without_defaults.conf')
     configuration.applyDefaults(project, tasks['update'])
-    assertThat project.contexts, equalTo('yeap')
+    assertThat project.ext.contexts, equalTo('yeap')
   }
  
   @Test
   public void notOverridingUser() {
-    project.contexts = 'yeap'
+    project.ext.contexts = 'yeap'
     def configuration = new Configuration('src/test/resources/liquid.conf')
     configuration.applyDefaults(project, tasks['update'])
-    assertThat project.contexts, equalTo('yeap')
+    assertThat project.ext.contexts, equalTo('yeap')
 
   }
 

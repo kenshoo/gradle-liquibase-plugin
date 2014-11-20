@@ -35,7 +35,7 @@ class Configuration {
     if(defaults){
 	defaults.keySet().intersect(params).each{d -> 
 	  if(!project.hasProperty(d)){
-	    project."$d"=defaults."$d" 
+	    project.ext."$d"=defaults."$d"
 	  }
 	}
     }
