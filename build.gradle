@@ -5,7 +5,7 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.8.3'
+version = '1.8.4'
 
 task('wrapper', type: Wrapper).configure {
     gradleVersion = '1.7'
@@ -29,7 +29,7 @@ dependencies {
     groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.8.4'
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:3.1.1'
-    compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '1.0.8'
+    compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '1.0.9'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
     testCompile 'mysql:mysql-connector-java:5.1.9'
