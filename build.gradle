@@ -5,13 +5,13 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.8.4'
+version = '1.9.1'
 
 task('wrapper', type: Wrapper).configure {
-    gradleVersion = '1.7'
+    gradleVersion = '2.2'
 }
 
-sourceCompatibility = 1.6
+sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'}
 
 sourceSets {
@@ -26,7 +26,7 @@ sourceSets {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
-    groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.8.4'
+    compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.3.7'
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:3.1.1'
     compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '1.0.9'
@@ -89,4 +89,3 @@ uploadArchives {
         }
     }
 }
-

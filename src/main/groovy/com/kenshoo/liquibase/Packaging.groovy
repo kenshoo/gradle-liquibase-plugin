@@ -78,7 +78,7 @@ class Packaging {
 
      private def addStandaloneRepackage(project){
        project.apply(plugin:'java')
-       project.buildscript.configurations.add('custom')
+       project.buildscript.configurations.create('custom')
        project.afterEvaluate {
        project.task([description :'Re-packages liquibase standalone before its added to the zip file'],'standaloneRepackage') << {
          project.ant.jar (jarfile:"${project.libsDir}/liquibase-standalone.jar"){

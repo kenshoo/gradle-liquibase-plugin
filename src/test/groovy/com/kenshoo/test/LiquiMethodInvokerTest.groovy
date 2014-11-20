@@ -42,7 +42,7 @@ class LiquiMethodInvokerTest {
     @Test
     public void findMaxParams() {
         def project = ProjectBuilder.builder().build()
-        project.contexts = 'somecontext'
+        project.ext.contexts = 'somecontext'
         def resolver = new LiquibaseApiResolver()
         def methods = resolver.readAllApiMethods()
         def tasks = resolver.convertMethodToTasks(methods)
@@ -57,7 +57,7 @@ class LiquiMethodInvokerTest {
     @Test
     public void invocation() {
         def project = ProjectBuilder.builder().build()
-        project.contexts = 'somecontext'
+        project.ext.contexts = 'somecontext'
         def updatable = new Updatable()
         def resolver = new LiquibaseApiResolver()
         def methods = resolver.readAllApiMethods()

@@ -2,7 +2,7 @@ package com.kenshoo.liquibase;
 
 import liquibase.changelog.ChangeSet;
 import liquibase.database.Database;
-import liquibase.diff.Diff;
+import liquibase.diff.Difference;
 import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.exception.LockException;
@@ -165,7 +165,7 @@ public interface LiquibaseApi {
      * @param targetDatabase
      * @return
      */
-    Diff diff(Database referenceDatabase, Database targetDatabase);
+    Difference diff(Database referenceDatabase, Database targetDatabase);
 
     /**
      * Checks the changelog for errors
