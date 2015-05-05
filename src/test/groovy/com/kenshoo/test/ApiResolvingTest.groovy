@@ -45,6 +45,6 @@ class ApiResolvingTest {
         def methods = resolver.readAllApiMethods()
         def tasks = resolver.convertMethodToTasks(methods)
         assertThat tasks.keySet(), hasItems('update', 'tag', 'rollback')
-        assertThat tasks['update'].paramLists.size(), equalTo(2)
+        assertThat tasks['update'].paramLists.size(), equalTo(3)
     }
 }
