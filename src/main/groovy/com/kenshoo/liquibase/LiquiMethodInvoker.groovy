@@ -64,10 +64,9 @@ class LiquiMethodInvoker {
         if (taskMeta.name.equals('reportStatus')) {
             convertedValues.add(new StringWriter())// the only non user provided param at the moment
         }
-        if (taskMeta.hasDryRun && project.hasProperty('dryRun')) {
+        if (taskMeta.hasDryRun && ['dryRun','skip'].any { property -> project.hasProperty(property)}) {
             convertedValues.add(new StringWriter())
         }
-
     }
 
 

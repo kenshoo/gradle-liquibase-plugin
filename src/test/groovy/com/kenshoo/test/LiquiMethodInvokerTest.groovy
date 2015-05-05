@@ -66,4 +66,18 @@ class LiquiMethodInvokerTest {
         invoker.invoke(project, tasks['update'], updatable)
         assertTrue updatable.wasUpdated
     }
+
+    @Test
+    public void invocationDryRun() {
+        def project = ProjectBuilder.builder().build()
+        project.ext.contexts = 'somecontext'
+        project.ext.out = new StringWriter()
+        def updatable = new Updatable()
+        def resolver = new LiquibaseApiResolver()
+        def methods = resolver.readAllApiMethods()
+        def tasks = resolver.convertMethodToTasks(methods)
+        def invoker = new LiquiMethodInvoker()
+        invoker.invoke(project, tasks['update'], updatable)
+        assertTrue updatable.wasUpdated
+    }
 }
