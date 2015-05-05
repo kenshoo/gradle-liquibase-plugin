@@ -5,7 +5,7 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '1.9.1'
+version = '3.3.3.1'
 
 task('wrapper', type: Wrapper).configure {
     gradleVersion = '2.2'
@@ -25,16 +25,17 @@ sourceSets {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.2'
     compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.3.7'
     compile gradleApi()
-    compile 'org.liquibase:liquibase-core:3.1.1'
+    compile 'org.liquibase:liquibase-core:3.3.3'
     compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '1.0.9'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
-    compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
-    testCompile 'mysql:mysql-connector-java:5.1.9'
-    testCompile 'postgresql:postgresql:9.1-901.jdbc4'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
+    compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
+
+    testCompile 'mysql:mysql-connector-java:5.1.35'
+    testCompile 'postgresql:postgresql:9.1-901.jdbc4'
+    testCompile 'junit:junit:4.11'
 }
 
 if(project.hasProperty('standalone')){
