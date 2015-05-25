@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */  
-package com.kenshoo.text
+package com.kenshoo.test
 
 import org.junit.Test
 import static org.hamcrest.CoreMatchers.containsString
