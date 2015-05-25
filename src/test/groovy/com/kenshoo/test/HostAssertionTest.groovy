@@ -31,7 +31,7 @@ class HostsAssertionTest {
      def ips = new HostsAssertion().localAddresses()  
      def gatewayLine = "netstat -rn".execute().text.split('\n').find {it.startsWith('0.0.0.0')}
      def gateway = (gatewayLine =~ /(\d+.\d+.\d+.\d+)/)[1][0]
-     def prefix = (gateway =~ /\d+.\d+./)[0]
+     def prefix = (gateway =~ /\d+./)[0]
      assertThat 'local ip is '+ips.first(),ips.first(),containsString(prefix)
   }
 
