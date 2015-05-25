@@ -5,7 +5,7 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '3.3.3.2'
+version = '3.3.3.3'
 
 task('wrapper', type: Wrapper).configure {
     gradleVersion = '2.2'
@@ -28,7 +28,7 @@ dependencies {
     compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.3.7'
     compile gradleApi()
     compile 'org.liquibase:liquibase-core:3.3.3'
-    compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '1.0.9'
+    compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '3.3.3.1'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'

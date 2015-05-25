@@ -31,7 +31,7 @@ public interface LiquibaseApi {
      * @param out
      * @throws LiquibaseException
      */
-    void update(String contexts, StringWriter out) throws LiquibaseException;
+    void update(String contexts, Writer out) throws LiquibaseException;
 
     /**
      * Applying all changesets with given contexts to the db
@@ -141,7 +141,7 @@ public interface LiquibaseApi {
      * @param out
      * @throws LiquibaseException
      */
-    void reportStatus(Boolean verbose, String contexts, StringWriter out) throws LiquibaseException;
+    void reportStatus(Boolean verbose, String contexts, Writer out) throws LiquibaseException;
 
     /**
      * Removes current checksums from database. On next run checksums will be recomputed
