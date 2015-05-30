@@ -5,7 +5,7 @@ apply plugin: 'idea'
 apply plugin: 'project-report'
 
 group = 'com.kenshoo.gradle.plugins'
-version = '3.3.3.3'
+version = '3.1.1.1'
 
 task('wrapper', type: Wrapper).configure {
     gradleVersion = '2.2'
@@ -27,8 +27,8 @@ sourceSets {
 dependencies {
     compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.3.7'
     compile gradleApi()
-    compile 'org.liquibase:liquibase-core:3.3.3'
-    compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '3.3.3.1'
+    compile 'org.liquibase:liquibase-core:3.1.1'
+    compile group: 'com.kenshoo', name: 'groovy-liquibase-dsl', version: '3.1.1.1'
     compile group: 'org.apache', name: 'log4j', version: '1.2.8'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1'
     compile group: 'com.thoughtworks.qdox', name: 'qdox', version: '2.0'
@@ -73,19 +73,15 @@ if(new File('serverUpload.gradle').exists()){
     }
 }
 
-
 uploadArchives {
-    def username = System.getProperty('username')
-    def password = System.getProperty('password')
-    def repo = System.getProperty('repo')
-    def snapshotRepo = System.getProperty('snapshotRepo')
+    def password = project.hasProperty('password') ? "$password" : ''
     repositories {
         mavenDeployer {
-            repository(url: repo) {
-                authentication(userName: username, password: password)
+            repository(url: "https://kenshoo.artifactoryonline.com/kenshoo/simple/libs-releases-local/") {
+                authentication(userName: "deployer", password: password)
             }
-            snapshotRepository(url: snapshotRepo) {
-                authentication(userName: username, password: password)
+            snapshotRepository(url: "https://kenshoo.artifactoryonline.com/kenshoo/simple/libs-snapshots-local/") {
+                authentication(userName: "deployer", password: password)
             }
         }
     }
