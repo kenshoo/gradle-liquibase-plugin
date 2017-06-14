@@ -77,10 +77,10 @@ uploadArchives {
     def password = project.hasProperty('password') ? "$password" : ''
     repositories {
         mavenDeployer {
-            repository(url: "https://kenshoo.artifactoryonline.com/kenshoo/simple/libs-releases-local/") {
+            repository(url: "https://kenshoo.jfrog.io/kenshoo/simple/libs-releases-local/") {
                 authentication(userName: "deployer", password: password)
             }
-            snapshotRepository(url: "https://kenshoo.artifactoryonline.com/kenshoo/simple/libs-snapshots-local/") {
+            snapshotRepository(url: "https://kenshoo.jfrog.io/kenshoo/simple/libs-snapshots-local/") {
                 authentication(userName: "deployer", password: password)
             }
         }
