@@ -1,0 +1,17 @@
+
+name: 'Quality Checks'
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - synchronize
+    branches: ['master']
+
+jobs:
+  pr_sonarqube:
+    uses: kenshoo/actions/.github/workflows/sonar_scan.yml@master
+    secrets: inherit
