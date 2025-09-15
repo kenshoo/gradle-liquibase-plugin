@@ -74,14 +74,12 @@ if(new File('serverUpload.gradle').exists()){
 }
 
 uploadArchives {
-    def password = project.hasProperty('password') ? "$password" : ''
+    def codeartifactToken = "aws codeartifact get-authorization-token --domain skai --domain-owner 706083814122 --query authorizationToken --output text".execute().text
     repositories {
         mavenDeployer {
-            repository(url: "https://kenshoo.jfrog.io/kenshoo/simple/libs-releases-local/") {
-                authentication(userName: "deployer", password: password)
-            }
-            snapshotRepository(url: "https://kenshoo.jfrog.io/kenshoo/simple/libs-snapshots-local/") {
-                authentication(userName: "deployer", password: password)
+            name = 'CodeArtifactory'
+            repository(url: 'https://skai-706083814122.d.codeartifact.us-east-1.amazonaws.com/maven/skai-maven/') {
+                authentication(userName: 'aws', password: codeartifactToken)
             }
         }
     }
